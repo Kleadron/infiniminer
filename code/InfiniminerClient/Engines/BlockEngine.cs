@@ -22,9 +22,9 @@ namespace Infiniminer
 
         public static readonly VertexElement[] VertexElements = new VertexElement[]
         { 
-            new VertexElement(0,0,VertexElementFormat.Vector3, VertexElementMethod.Default, VertexElementUsage.Position, 0),
-            new VertexElement(0,sizeof(float)*3,VertexElementFormat.Vector2, VertexElementMethod.Default, VertexElementUsage.TextureCoordinate, 0),
-            new VertexElement(0,sizeof(float)*5,VertexElementFormat.Single, VertexElementMethod.Default, VertexElementUsage.TextureCoordinate, 1)               
+            new VertexElement(0,VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+            new VertexElement(sizeof(float)*3,VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0),
+            new VertexElement(sizeof(float)*5,VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 1)               
         };
 
         public VertexPositionTextureShade(Vector3 position, Vector2 uv, double shade)
@@ -186,7 +186,7 @@ namespace Infiniminer
                     vertexListDirty[i, j] = true;
 
             // Initialize any graphics stuff.
-            vertexDeclaration = new VertexDeclaration(gameInstance.GraphicsDevice, VertexPositionTextureShade.VertexElements);
+            vertexDeclaration = new VertexDeclaration(VertexPositionTextureShade.VertexElements);
 
             // Initialize the bloom engine.
             if (gameInstance.RenderPretty)
@@ -277,7 +277,7 @@ namespace Infiniminer
                         continue;
 
                     // Actually render.
-                    RenderVertexList(graphicsDevice, regionBuffer, blockTextures[(byte)blockTexture].Texture, blockTextures[(byte)blockTexture].LODColor, renderTranslucent, blockTexture == BlockTexture.Lava, (float)gameTime.TotalRealTime.TotalSeconds);
+                    RenderVertexList(graphicsDevice, regionBuffer, blockTextures[(byte)blockTexture].Texture, blockTextures[(byte)blockTexture].LODColor, renderTranslucent, blockTexture == BlockTexture.Lava, (float)gameTime.TotalGameTime.TotalSeconds);
                 }
 
             // Apply posteffects.
@@ -303,39 +303,38 @@ namespace Infiniminer
             basicEffect.Parameters["xProjection"].SetValue(gameInstance.propertyBag.playerCamera.ProjectionMatrix);
             basicEffect.Parameters["xTexture"].SetValue(blockTexture);
             basicEffect.Parameters["xLODColor"].SetValue(lodColor.ToVector3());
-            basicEffect.Begin();
+            //basicEffect.Begin();
             
             foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
             {
-                pass.Begin();
+                pass.Apply();
 
                 if (renderTranslucent)
                 {
                     // TODO: Make translucent blocks look like we actually want them to look!
                     // We probably also want to pull this out to be rendered AFTER EVERYTHING ELSE IN THE GAME.
-                    graphicsDevice.RenderState.DepthBufferWriteEnable = false;
-                    graphicsDevice.RenderState.AlphaBlendEnable = true;
-                    graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
-                    graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
+                    graphicsDevice.BlendState = BlendState.AlphaBlend;
+                    graphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
                 }
 
-                graphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
-                graphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
-                graphicsDevice.VertexDeclaration = vertexDeclaration;
-                graphicsDevice.Vertices[0].SetSource(vertexBuffer, 0, VertexPositionTextureShade.SizeInBytes);
-                graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, vertexBuffer.SizeInBytes / VertexPositionTextureShade.SizeInBytes / 3);
-                graphicsDevice.RenderState.CullMode = CullMode.None;
+                graphicsDevice.RasterizerState = RasterizerState.CullNone;
+                graphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
+                //graphicsDevice.VertexDeclaration = vertexDeclaration;
+                //graphicsDevice.Vertices[0].SetSource(vertexBuffer, 0, VertexPositionTextureShade.SizeInBytes);
+                graphicsDevice.SetVertexBuffer(vertexBuffer);
+                graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, vertexBuffer.VertexCount);
+                //graphicsDevice.RenderState.CullMode = CullMode.None;
 
                 if (renderTranslucent)
                 {
-                    graphicsDevice.RenderState.DepthBufferWriteEnable = true;
-                    graphicsDevice.RenderState.AlphaBlendEnable = false;
+                    graphicsDevice.BlendState = BlendState.Opaque;
+                    graphicsDevice.DepthStencilState = DepthStencilState.Default;
                 }
 
-                pass.End();
+                //pass.End();
             }
             
-            basicEffect.End();
+            //basicEffect.End();
         }
 
         private void RegenerateDirtyVertexLists()
@@ -352,11 +351,11 @@ namespace Infiniminer
 
         public struct DynamicVertexBufferTag
         {
-            public BlockEngine blockEngine;
+            //public BlockEngine blockEngine; // why? the only time this was used was INSIDE BlockEngine. We don't need a reference for this.
             public int texture, region;
-            public DynamicVertexBufferTag(BlockEngine blockEngine, int texture, int region)
+            public DynamicVertexBufferTag(/*BlockEngine blockEngine,*/ int texture, int region)
             {
-                this.blockEngine = blockEngine;
+                //this.blockEngine = blockEngine;
                 this.texture = texture;
                 this.region = region;
             }
@@ -375,9 +374,9 @@ namespace Infiniminer
                 BuildFaceVertices(ref vertexList, vertexPointer, faceInfo, texture == (int)BlockTexture.Spikes);
                 vertexPointer += 6;            
             }
-            DynamicVertexBuffer vertexBuffer = new DynamicVertexBuffer(gameInstance.GraphicsDevice, vertexList.Length * VertexPositionTextureShade.SizeInBytes, BufferUsage.WriteOnly);
-            vertexBuffer.ContentLost += new EventHandler(vertexBuffer_ContentLost);
-            vertexBuffer.Tag = new DynamicVertexBufferTag(this, texture, region);
+            DynamicVertexBuffer vertexBuffer = new DynamicVertexBuffer(gameInstance.GraphicsDevice, vertexDeclaration, vertexList.Length, BufferUsage.WriteOnly);
+            vertexBuffer.ContentLost += new EventHandler<EventArgs>(vertexBuffer_ContentLost);
+            vertexBuffer.Tag = new DynamicVertexBufferTag(texture, region);
             vertexBuffer.SetData(vertexList);
             return vertexBuffer;
         }
@@ -388,7 +387,7 @@ namespace Infiniminer
             if (dvb != null)
             {
                 DynamicVertexBufferTag tag = (DynamicVertexBufferTag)dvb.Tag;
-                tag.blockEngine.MakeRegionDirty(tag.texture, tag.region);
+                MakeRegionDirty(tag.texture, tag.region);
             }
         }
 

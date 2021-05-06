@@ -1,13 +1,13 @@
 # This value specifies your name - please change it to something unique!
-handle = Player
+handle = Kleadron
 
 width = 1024
-height = 780
+height = 768
 fullscreen = false
 
 # If this flag is set to true, pretty mode will be enabled, which turns on bloom lighting!
 # If your performance is bad, try turning this off.
-pretty = true
+pretty = false
 
 showfps = true
 yinvert = false

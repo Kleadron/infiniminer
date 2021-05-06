@@ -444,10 +444,10 @@ namespace Infiniminer.States
                     break;
                 case Buttons.Ping:
                     {
-                        NetBuffer msgBuffer = _P.netClient.CreateBuffer();
+                        NetOutgoingMessage msgBuffer = _P.netClient.CreateMessage();
                         msgBuffer.Write((byte)InfiniminerMessage.PlayerPing);
                         msgBuffer.Write(_P.playerMyId);
-                        _P.netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+                        _P.netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
                     }
                     break;
                 case Buttons.ChangeClass:
@@ -517,13 +517,13 @@ namespace Infiniminer.States
                     // If we have an actual message to send, fire it off at the server.
                     if (_P.chatEntryBuffer.Length > 0)
                     {
-                        if (_P.netClient.Status == NetConnectionStatus.Connected)
+                        if (_P.netClient.Status == NetPeerStatus.Running)
                         {
-                            NetBuffer msgBuffer = _P.netClient.CreateBuffer();
+                            NetOutgoingMessage msgBuffer = _P.netClient.CreateMessage();
                             msgBuffer.Write((byte)InfiniminerMessage.ChatMessage);
                             msgBuffer.Write((byte)_P.chatMode);
                             msgBuffer.Write(_P.chatEntryBuffer);
-                            _P.netClient.SendMessage(msgBuffer, NetChannel.ReliableInOrder3);
+                            _P.netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableOrdered);
                         }
                         else
                         {

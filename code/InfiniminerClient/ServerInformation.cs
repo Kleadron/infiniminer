@@ -15,9 +15,9 @@ namespace Infiniminer
         public string maxPlayers;
         public bool lanServer;
 
-        public ServerInformation(NetBuffer netBuffer)
+        public ServerInformation(NetIncomingMessage netBuffer)
         {
-            ipEndPoint = netBuffer.ReadIPEndPoint();
+            ipEndPoint = netBuffer.SenderEndPoint;//netBuffer.ReadIPEndPoint();
             serverName = ipEndPoint.Address.ToString();
             lanServer = true;
         }
@@ -46,7 +46,7 @@ namespace Infiniminer
                 if (serverExtra.Trim() != "")
                     serverDesc += " - " + serverExtra.Trim();
             }
-            
+
             return serverDesc;
         }
 

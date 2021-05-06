@@ -16,7 +16,7 @@ namespace Infiniminer
     class GeometryDebugger
     {
         GraphicsDevice graphicsDevice;
-        VertexDeclaration vertexDeclaration;
+        //VertexDeclaration vertexDeclaration;
         Effect effect;
 
         public Matrix ViewMatrix = Matrix.Identity;
@@ -25,7 +25,7 @@ namespace Infiniminer
         public GeometryDebugger(GraphicsDevice graphicsDevice, Effect effect)
         {
             this.graphicsDevice = graphicsDevice;
-            vertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionColor.VertexElements);
+            //vertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionColor.VertexElements);
             this.effect = effect;
         }
 
@@ -36,16 +36,16 @@ namespace Infiniminer
             effect.Parameters["World"].SetValue(Matrix.Identity);
             effect.Parameters["View"].SetValue(ViewMatrix);
             effect.Parameters["Projection"].SetValue(ProjectionMatrix);
-            effect.Begin();
+            //effect.Begin();
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
             {
-                pass.Begin();
-                graphicsDevice.RenderState.CullMode = CullMode.None;
-                graphicsDevice.VertexDeclaration = vertexDeclaration;
+                pass.Apply();
+                graphicsDevice.RasterizerState = RasterizerState.CullNone;
+                //graphicsDevice.VertexDeclaration = vertexDeclaration;
                 graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, sphereVertices, 0, sphereVertices.Length / 3);
-                pass.End();
+                //pass.End();
             }
-            effect.End();
+            //effect.End();
         }
 
         public void DrawLine(Vector3 posStart, Vector3 posEnd, Color color)

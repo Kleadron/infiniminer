@@ -69,7 +69,7 @@ namespace StateMasher
         //{
         //}
 
-        //public virtual void OnPacket(NetBuffer buffer, NetMessageType type)
+        //public virtual void OnPacket(NetOutgoingMessage buffer, NetIncomingMessageType type)
         //{
         //}
     }

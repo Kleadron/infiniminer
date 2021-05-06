@@ -71,7 +71,7 @@ namespace Infiniminer.States
         public override void OnRenderAtUpdate(GraphicsDevice graphicsDevice, GameTime gameTime)
         {
             SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Deferred, SaveStateMode.SaveState);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             spriteBatch.Draw((_P.playerTeam == PlayerTeam.Red)?texMenuRed:texMenuBlue, drawRect, Color.White);
             spriteBatch.End();
         }

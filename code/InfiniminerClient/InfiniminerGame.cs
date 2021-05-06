@@ -22,7 +22,7 @@ namespace Infiniminer
         double timeSinceLastUpdate = 0;
         string playerHandle = "Player";
         float volumeLevel = 1.0f;
-        NetBuffer msgBuffer = null;
+        NetIncomingMessage msgBuffer;
         Song songTitle = null;
 
         public bool RenderPretty = true;
@@ -53,13 +53,13 @@ namespace Infiniminer
         {
             anyPacketsReceived = false;
             // Clear out the map load progress indicator.
-            propertyBag.mapLoadProgress = new bool[64,64];
+            propertyBag.mapLoadProgress = new bool[64, 64];
             for (int i = 0; i < 64; i++)
-                for (int j=0; j<64; j++)
-                    propertyBag.mapLoadProgress[i,j] = false;
+                for (int j = 0; j < 64; j++)
+                    propertyBag.mapLoadProgress[i, j] = false;
 
             // Create our connect message.
-            NetBuffer connectBuffer = propertyBag.netClient.CreateBuffer();
+            NetOutgoingMessage connectBuffer = propertyBag.netClient.CreateMessage();
             connectBuffer.Write(propertyBag.playerHandle);
             connectBuffer.Write(Defines.INFINIMINER_VERSION);
 
@@ -67,23 +67,22 @@ namespace Infiniminer
             connectBuffer.Write(true);
 
             // Connect to the server.
-            propertyBag.netClient.Connect(serverEndPoint, connectBuffer.ToArray());
+            propertyBag.netClient.Connect(serverEndPoint, connectBuffer);
         }
 
         public List<ServerInformation> EnumerateServers(float discoveryTime)
         {
             List<ServerInformation> serverList = new List<ServerInformation>();
-            
+
             // Discover local servers.
-            propertyBag.netClient.DiscoverLocalServers(5565);
-            NetBuffer msgBuffer = propertyBag.netClient.CreateBuffer();
-            NetMessageType msgType;
+            propertyBag.netClient.DiscoverLocalPeers(5565);
+            NetIncomingMessage msgBuffer;
             float timeTaken = 0;
             while (timeTaken < discoveryTime)
             {
-                while (propertyBag.netClient.ReadMessage(msgBuffer, out msgType))
+                while ((msgBuffer = propertyBag.netClient.ReadMessage()) != null)
                 {
-                    if (msgType == NetMessageType.ServerDiscovered)
+                    if (msgBuffer.MessageType == NetIncomingMessageType.DiscoveryResponse)
                     {
                         bool serverFound = false;
                         ServerInformation serverInfo = new ServerInformation(msgBuffer);
@@ -136,37 +135,33 @@ namespace Infiniminer
             }
 
             // Recieve messages from the server.
-            NetMessageType msgType;
-            while (propertyBag.netClient.ReadMessage(msgBuffer, out msgType))
+            while ((msgBuffer = propertyBag.netClient.ReadMessage()) != null)
             {
-                switch (msgType)
+                switch (msgBuffer.MessageType)
                 {
-                    case NetMessageType.StatusChanged:
+                    case NetIncomingMessageType.StatusChanged:
                         {
-                            if (propertyBag.netClient.Status == NetConnectionStatus.Disconnected)
-                                ChangeState("Infiniminer.States.ServerBrowserState");
-                        }
-                        break;
-                    case NetMessageType.ConnectionApproval:
-                        anyPacketsReceived = true;
-                        break;
-                    case NetMessageType.ConnectionRejected:
-                        {
-                            anyPacketsReceived = false;
-                            try
+                            if (propertyBag.netClient.ConnectionStatus == NetConnectionStatus.RespondedConnect)
                             {
-                                string[] reason = msgBuffer.ReadString().Split(";".ToCharArray());
-                                if (reason.Length < 2 || reason[0] == "VER")
-                                    System.Windows.Forms.MessageBox.Show("Error: client/server version incompability!\r\nServer: " + msgBuffer.ReadString() + "\r\nClient: " + Defines.INFINIMINER_VERSION);
-                                else
-                                    System.Windows.Forms.MessageBox.Show("Error: you are banned from this server!");
+                                anyPacketsReceived = true;
                             }
-                            catch { }
-                            ChangeState("Infiniminer.States.ServerBrowserState");
+                            if (propertyBag.netClient.ConnectionStatus == NetConnectionStatus.Disconnected)
+                            {
+                                anyPacketsReceived = false;
+                                try
+                                {
+                                    string[] reason = msgBuffer.ReadString().Split(";".ToCharArray());
+                                    if (reason.Length < 2 || reason[0] == "VER")
+                                        System.Windows.Forms.MessageBox.Show("Error: client/server version incompability!\r\nServer: " + msgBuffer.ReadString() + "\r\nClient: " + Defines.INFINIMINER_VERSION);
+                                    else
+                                        System.Windows.Forms.MessageBox.Show("Error: you are banned from this server!");
+                                }
+                                catch { }
+                                ChangeState("Infiniminer.States.ServerBrowserState");
+                            }
                         }
-                        break;
-
-                    case NetMessageType.Data:
+                        break;  
+                    case NetIncomingMessageType.Data:
                         {
                             try
                             {
@@ -187,7 +182,7 @@ namespace Infiniminer
                                                 //255 was used because it exceeds the map size - of course, bytes won't work anyway if map sizes are allowed to be this big, so this method is a non-issue
                                                 if (isCompressed == 255)
                                                 {
-                                                    var compressed = msgBuffer.ReadBytes(msgBuffer.LengthBytes - msgBuffer.Position / 8);
+                                                    var compressed = msgBuffer.ReadBytes(msgBuffer.LengthBytes - (int)(msgBuffer.Position / 8));
                                                     var compressedstream = new System.IO.MemoryStream(compressed);
                                                     var decompresser = new System.IO.Compression.GZipStream(compressedstream, System.IO.Compression.CompressionMode.Decompress);
 
@@ -623,7 +618,7 @@ namespace Infiniminer
             propertyBag.red = red;
             propertyBag.blueName = blueName;
             propertyBag.redName = redName;
-            msgBuffer = propertyBag.netClient.CreateBuffer();
+            msgBuffer = null;
         }
 
         protected override void LoadContent()

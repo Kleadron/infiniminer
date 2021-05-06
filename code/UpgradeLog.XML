@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Infiniminer">
+</Property><Property Name="Solution File" Value="C:\GitHub\infiniminer\code\Infiniminer.sln">
+</Property><Property Name="Date" Value="Wednesday, May 05, 2021">
+</Property><Property Name="Time" Value="17:36 PM">
+</Property><Property Name="Solution" Value="Infiniminer">
+</Property><Property Name="Solution File" Value="C:\GitHub\infiniminer\code\Infiniminer.sln">
+</Property><Property Name="Date" Value="Wednesday, May 05, 2021">
+</Property><Property Name="Time" Value="17:36:34 PM">
+</Property></Properties><Event ErrorLevel="0" Project="InfiniminerClient" Source="InfiniminerClient\InfiniminerClient.csproj" Description="Upgraded XNA Game Studio project to XNA Framework 4.0.">
+</Event><Event ErrorLevel="0" Project="InfiniminerClient" Source="InfiniminerClient\InfiniminerClient.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="InfiniminerClient" Source="InfiniminerClient\InfiniminerClient.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="InfiniminerServer" Source="InfiniminerServer\InfiniminerServer.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="InfiniminerServer" Source="InfiniminerServer\InfiniminerServer.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="InfiniminerShared" Source="InfiniminerShared\InfiniminerShared.csproj" Description="Upgraded XNA Game Studio project to XNA Framework 4.0.">
+</Event><Event ErrorLevel="0" Project="InfiniminerShared" Source="InfiniminerShared\InfiniminerShared.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="InfiniminerShared" Source="InfiniminerShared\InfiniminerShared.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="Infiniminer.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="Infiniminer.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="InfiniminerClient" Source="InfiniminerClient\InfiniminerClient.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="InfiniminerClient" Source="InfiniminerClient\InfiniminerClient.csproj" Description="Upgraded XNA Framework references to XNA Framework 4.0.">
+</Event><Event ErrorLevel="0" Project="InfiniminerClientContent" Source="InfiniminerClient\Content\InfiniminerClientContent.contentproj" Description="Upgraded XNA Game Studio nested content projects to XNA Framework 4.0 and promoted to sibling project.">
+</Event><Event ErrorLevel="0" Project="InfiniminerServer" Source="InfiniminerServer\InfiniminerServer.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="InfiniminerServer" Source="InfiniminerServer\InfiniminerServer.csproj" Description="Upgraded XNA Framework Content Pipeline References.">
+</Event><Event ErrorLevel="0" Project="InfiniminerServer" Source="InfiniminerServer\InfiniminerServer.csproj" Description="Upgraded XNA Framework references to XNA Framework 4.0.">
+</Event><Event ErrorLevel="0" Project="InfiniminerShared" Source="InfiniminerShared\app.config" Description="File converted successfully. All &lt;supportedRuntime&gt; and &lt;requiredRuntime&gt; tags were removed to enable the project to build and run with Visual Studio 2005.">
+</Event><Event ErrorLevel="3" Project="InfiniminerShared" Source="InfiniminerShared\app.config" Description="Converted">
+</Event><Event ErrorLevel="0" Project="InfiniminerShared" Source="InfiniminerShared\InfiniminerShared.csproj" Description="Upgraded XNA Framework references to XNA Framework 4.0.">
+</Event><Event ErrorLevel="0" Project="InfiniminerShared" Source="Content\Content.contentproj" Description="Upgrade of Library project 'InfiniminerShared' removed a reference to the empty Content Project 'C:\GitHub\infiniminer\code\InfiniminerShared\Content\Content.contentproj'.">
+</Event></UpgradeLog>

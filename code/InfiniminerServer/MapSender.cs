@@ -48,7 +48,7 @@ namespace Infiniminer
             for (byte x = 0; x < MAPSIZE; x++)
                 for (byte y = 0; y < MAPSIZE; y += 16)
                 {
-                    NetBuffer msgBuffer = infsN.CreateBuffer();
+                    NetOutgoingMessage msgBuffer = infsN.CreateMessage();
                     msgBuffer.Write((byte)Infiniminer.InfiniminerMessage.BlockBulkTransfer);
                     if (!compression)
                     {
@@ -58,7 +58,7 @@ namespace Infiniminer
                             for (byte z = 0; z < MAPSIZE; z++)
                                 msgBuffer.Write((byte)(infs.blockList[x, y + dy, z]));
                         if (client.Status == NetConnectionStatus.Connected)
-                            infsN.SendMessage(msgBuffer, client, NetChannel.ReliableUnordered);
+                            infsN.SendMessage(msgBuffer, client, NetDeliveryMethod.ReliableUnordered);
                     }
                     else
                     {
@@ -86,7 +86,7 @@ namespace Infiniminer
                         //Send the compressed data
                         msgBuffer.Write(compressedstream.ToArray());
                         if (client.Status == NetConnectionStatus.Connected)
-                            infsN.SendMessage(msgBuffer, client, NetChannel.ReliableUnordered);
+                            infsN.SendMessage(msgBuffer, client, NetDeliveryMethod.ReliableUnordered);
                     }
                 }
             conn.Abort();

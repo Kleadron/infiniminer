@@ -188,7 +188,7 @@ namespace Infiniminer
         {
             int screenWidth = graphicsDevice.Viewport.Width;
             int screenHeight = graphicsDevice.Viewport.Height;
-            graphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
+            graphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
 
             Texture2D textureToUse;
             if (Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed)
@@ -203,7 +203,7 @@ namespace Infiniminer
         {
             int screenWidth = graphicsDevice.Viewport.Width;
             int screenHeight = graphicsDevice.Viewport.Height;
-            graphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
+            graphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
 
             int drawX = screenWidth / 2 - 32 * 3;
             int drawY = screenHeight - 102 * 3;
@@ -229,7 +229,7 @@ namespace Infiniminer
         {
             int screenWidth = graphicsDevice.Viewport.Width;
             int screenHeight = graphicsDevice.Viewport.Height;
-            graphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
+            graphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
 
             int drawX = screenWidth / 2 - 60 * 3;
             int drawY = screenHeight - 91 * 3;
@@ -274,7 +274,7 @@ namespace Infiniminer
                 _P = gameInstance.propertyBag;
 
             // Draw the UI.
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.SaveState);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             // Draw the crosshair.
             spriteBatch.Draw(texCrosshairs, new Rectangle(graphicsDevice.Viewport.Width / 2 - texCrosshairs.Width / 2,
@@ -318,7 +318,7 @@ namespace Infiniminer
                 RenderMessageCenter(spriteBatch, String.Format("FPS: {0:000}", gameInstance.FrameRate), new Vector2(60, graphicsDevice.Viewport.Height - 20), Color.Gray, Color.Black);
 
             // Show the altimeter.
-            int altitude = (int)(_P.playerPosition.Y - 64 + Defines.GROUND_LEVEL);
+            int altitude = (int)(_P.playerPosition.Y - BlockEngine.MAPSIZE + Defines.GROUND_LEVEL);
             RenderMessageCenter(spriteBatch, String.Format("ALTITUDE: {0:00}", altitude), new Vector2(graphicsDevice.Viewport.Width - 90, graphicsDevice.Viewport.Height - 20), altitude >= 0 ? Color.Gray : Defines.IM_RED, Color.Black);
 
             // Draw bank instructions.
@@ -342,7 +342,7 @@ namespace Infiniminer
             // Draw player information.
             if ((Keyboard.GetState().IsKeyDown(Keys.Tab) && _P.screenEffect == ScreenEffect.None) || _P.teamWinners != PlayerTeam.None)
             {
-                spriteBatch.Draw(texBlank, new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height), new Color(Color.Black, 0.7f));
+                spriteBatch.Draw(texBlank, new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height), new Color(0, 0, 0, 0.7f));
 
                 //Server name
                 RenderMessageCenter(spriteBatch, _P.serverName, new Vector2(graphicsDevice.Viewport.Width / 2, 32), _P.playerTeam == PlayerTeam.Blue ? _P.blue : _P.red, Color.Black);//Defines.IM_BLUE : Defines.IM_RED, Color.Black);
@@ -448,6 +448,12 @@ namespace Infiniminer
             {
                 spriteBatch.Draw(texBlank, new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height), Color.Black);
                 spriteBatch.Draw(texHelp, drawRect, Color.White);
+            }
+
+            // Kleadron debug cheat stuff
+            if (Keyboard.GetState().IsKeyDown(Keys.F2))
+            {
+                spriteBatch.DrawString(uiFont, "Position: " + _P.playerPosition.ToString(), new Vector2(0, 20), Color.White);
             }
 
             spriteBatch.End();

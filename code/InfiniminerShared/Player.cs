@@ -204,7 +204,7 @@ namespace Infiniminer
             this.ID = Player.GetUniqueId();
 
             if (netConn != null)
-                this.IP = netConn.RemoteEndpoint.Address.ToString();
+                this.IP = netConn.RemoteEndPoint.Address.ToString();
 
             if (gameInstance != null)
             {

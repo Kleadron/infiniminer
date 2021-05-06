@@ -115,7 +115,7 @@ namespace StateMasher
         protected override void Update(GameTime gameTime)
         {
             if (frameCount > 0)
-                frameRate = frameCount / gameTime.TotalRealTime.TotalSeconds;
+                frameRate = frameCount / gameTime.TotalGameTime.TotalSeconds;
 
             if (currentState != null && propertyBag != null)
             {

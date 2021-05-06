@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace Infiniminer
 {
@@ -10,17 +11,28 @@ namespace Infiniminer
         [STAThread]
         static void Main(string[] args)
         {
-            using (InfiniminerGame game = new InfiniminerGame(args))
+            if (Debugger.IsAttached)
             {
-                try
+                using (InfiniminerGame game = new InfiniminerGame(args))
                 {
                     game.Run();
                 }
-                catch (Exception e)
+            }
+            else
+            {
+                using (InfiniminerGame game = new InfiniminerGame(args))
                 {
-                    System.Windows.Forms.MessageBox.Show(e.Message + "\r\n\r\n" + e.StackTrace);
+                    try
+                    {
+                        game.Run();
+                    }
+                    catch (Exception e)
+                    {
+                        System.Windows.Forms.MessageBox.Show(e.Message + "\r\n\r\n" + e.StackTrace);
+                    }
                 }
             }
+            
         }
     }
 }

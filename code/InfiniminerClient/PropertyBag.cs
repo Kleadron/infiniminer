@@ -94,10 +94,10 @@ namespace Infiniminer
         public PropertyBag(InfiniminerGame gameInstance)
         {
             // Initialize our network device.
-            NetConfiguration netConfig = new NetConfiguration("InfiniminerPlus");
+            NetPeerConfiguration netConfig = new NetPeerConfiguration("InfiniminerPlus");
 
             netClient = new NetClient(netConfig);
-            netClient.SetMessageTypeEnabled(NetMessageType.ConnectionRejected, true);
+            netConfig.SetMessageTypeEnabled(NetIncomingMessageType.ErrorMessage, true);
             //netClient.SimulatedMinimumLatency = 0.1f;
             //netClient.SimulatedLatencyVariance = 0.05f;
             //netClient.SimulatedLoss = 0.1f;
@@ -160,9 +160,9 @@ namespace Infiniminer
             string filename = "saved_" + serverName.Replace(" ","") + "_" + (UInt64)DateTime.Now.ToBinary() + ".lvl";
             FileStream fs = new FileStream(filename, FileMode.Create);
             StreamWriter sw = new StreamWriter(fs);
-            for (int x = 0; x < 64; x++)
-                for (int y = 0; y < 64; y++)
-                    for (int z = 0; z < 64; z++)
+            for (int x = 0; x < BlockEngine.MAPSIZE; x++)
+                for (int y = 0; y < BlockEngine.MAPSIZE; y++)
+                    for (int z = 0; z < BlockEngine.MAPSIZE; z++)
                         sw.WriteLine((byte)blockEngine.blockList[x, y, z] + "," + (byte)TeamFromBlock(blockEngine.blockList[x, y, z]));//(byte)blockEngine.blockCreatorTeam[x, y, z]);
             sw.Close();
             fs.Close();
@@ -171,7 +171,7 @@ namespace Infiniminer
 
         public void KillPlayer(string deathMessage)
         {
-            if (netClient.Status != NetConnectionStatus.Connected)
+            if (netClient.Status != NetPeerStatus.Running)
                 return;
 
             PlaySound(InfiniminerSound.Death);
@@ -181,15 +181,15 @@ namespace Infiniminer
             screenEffect = ScreenEffect.Death;
             screenEffectCounter = 0;
 
-            NetBuffer msgBuffer = netClient.CreateBuffer();
+            NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.PlayerDead);
             msgBuffer.Write(deathMessage);
-            netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+            netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
         }
 
         public void RespawnPlayer()
         {
-            if (netClient.Status != NetConnectionStatus.Connected)
+            if (netClient.Status != NetPeerStatus.Running)
                 return;
 
             playerDead = false;
@@ -201,10 +201,10 @@ namespace Infiniminer
             for (int i = 0; i < 20; i++)
             {
                 // Pick a random starting point.
-                Vector3 startPos = new Vector3(randGen.Next(2, 62), 63, randGen.Next(2, 62));
+                Vector3 startPos = new Vector3(randGen.Next(2, BlockEngine.MAPSIZE - 2), BlockEngine.MAPSIZE - 1, randGen.Next(2, BlockEngine.MAPSIZE - 2));
 
                 // See if this is a safe place to drop.
-                for (startPos.Y = 63; startPos.Y >= 54; startPos.Y--)
+                for (startPos.Y = BlockEngine.MAPSIZE - 1; startPos.Y >= BlockEngine.MAPSIZE - 10; startPos.Y--)
                 {
                     BlockType blockType = blockEngine.BlockAtPoint(startPos);
                     if (blockType == BlockType.Lava)
@@ -225,7 +225,7 @@ namespace Infiniminer
 
             // If we failed to find a spawn point, drop randomly.
             if (!positionFound)
-                playerPosition = new Vector3(randGen.Next(2, 62), 66, randGen.Next(2, 62));
+                playerPosition = new Vector3(randGen.Next(2, BlockEngine.MAPSIZE - 2), BlockEngine.MAPSIZE + 2, randGen.Next(2, BlockEngine.MAPSIZE - 2));
 
             // Drop the player on the middle of the block, not at the corner.
             playerPosition += new Vector3(0.5f, 0, 0.5f);
@@ -237,9 +237,9 @@ namespace Infiniminer
             UpdateCamera();
 
             // Tell the server we have respawned.
-            NetBuffer msgBuffer = netClient.CreateBuffer();
+            NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.PlayerAlive);
-            netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+            netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
         }
 
         public void PlaySound(InfiniminerSound sound)
@@ -247,7 +247,7 @@ namespace Infiniminer
             if (soundList.Count == 0)
                 return;
 
-            soundList[sound].Play(volumeLevel);
+            soundList[sound].Play(volumeLevel, 0f, 0f);
         }
 
         public void PlaySound(InfiniminerSound sound, Vector3 position)
@@ -258,20 +258,20 @@ namespace Infiniminer
             float distance = (position - playerPosition).Length();
             float volume = Math.Max(0, 10 - distance) / 10.0f * volumeLevel;
             volume = volume > 1.0f ? 1.0f : volume < 0.0f ? 0.0f : volume;
-            soundList[sound].Play(volume);
+            soundList[sound].Play(volume, 0f, 0f);
         }
 
         public void PlaySoundForEveryone(InfiniminerSound sound, Vector3 position)
         {
-            if (netClient.Status != NetConnectionStatus.Connected)
+            if (netClient.Status != NetPeerStatus.Running)
                 return;
 
             // The PlaySound message can be used to instruct the server to have all clients play a directional sound.
-            NetBuffer msgBuffer = netClient.CreateBuffer();
+            NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.PlaySound);
             msgBuffer.Write((byte)sound);
             msgBuffer.Write(position);
-            netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+            netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
         }
 
         public void addChatMessage(string chatString, ChatMessageType chatType, float timestamp)
@@ -384,45 +384,45 @@ namespace Infiniminer
 
         public void DepositLoot()
         {
-            if (netClient.Status != NetConnectionStatus.Connected)
+            if (netClient.Status != NetPeerStatus.Running)
                 return;
 
-            NetBuffer msgBuffer = netClient.CreateBuffer();
+            NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.DepositCash);
-            netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+            netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
         }
 
         public void DepositOre()
         {
-            if (netClient.Status != NetConnectionStatus.Connected)
+            if (netClient.Status != NetPeerStatus.Running)
                 return;
 
-            NetBuffer msgBuffer = netClient.CreateBuffer();
+            NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.DepositOre);
-            netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+            netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
         }
 
         public void WithdrawOre()
         {
-            if (netClient.Status != NetConnectionStatus.Connected)
+            if (netClient.Status != NetPeerStatus.Running)
                 return;
 
-            NetBuffer msgBuffer = netClient.CreateBuffer();
+            NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.WithdrawOre);
-            netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+            netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
         }
 
         public void SetPlayerTeam(PlayerTeam playerTeam)
         {
-            if (netClient.Status != NetConnectionStatus.Connected)
+            if (netClient.Status != NetPeerStatus.Running)
                 return;
 
             this.playerTeam = playerTeam;
 
-            NetBuffer msgBuffer = netClient.CreateBuffer();
+            NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.PlayerSetTeam);
             msgBuffer.Write((byte)playerTeam);
-            netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+            netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
         }
 
         public bool allWeps = false; //Needs to be true on sandbox servers, though that requires a server mod
@@ -506,15 +506,15 @@ namespace Infiniminer
         {
             if (this.playerClass != playerClass)
             {
-                if (netClient.Status != NetConnectionStatus.Connected)
+                if (netClient.Status != NetPeerStatus.Running)
                     return;
 
                 this.playerClass = playerClass;
 
-                NetBuffer msgBuffer = netClient.CreateBuffer();
+                NetOutgoingMessage msgBuffer = netClient.CreateMessage();
                 msgBuffer.Write((byte)InfiniminerMessage.SelectClass);
                 msgBuffer.Write((byte)playerClass);
-                netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+                netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
 
                 playerToolSelected = 0;
                 playerBlockSelected = 0;
@@ -527,34 +527,34 @@ namespace Infiniminer
 
         public void FireRadar()
         {
-            if (netClient.Status != NetConnectionStatus.Connected)
+            if (netClient.Status != NetPeerStatus.Running)
                 return;
 
             playerToolCooldown = GetToolCooldown(PlayerTools.ProspectingRadar);
 
-            NetBuffer msgBuffer = netClient.CreateBuffer();
+            NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.UseTool);
             msgBuffer.Write(playerPosition);
             msgBuffer.Write(playerCamera.GetLookVector());
             msgBuffer.Write((byte)PlayerTools.ProspectingRadar);
             msgBuffer.Write((byte)BlockType.None);
-            netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+            netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
         }
 
         public void FirePickaxe()
         {
-            if (netClient.Status != NetConnectionStatus.Connected)
+            if (netClient.Status != NetPeerStatus.Running)
                 return;
 
             playerToolCooldown = GetToolCooldown(PlayerTools.Pickaxe);
 
-            NetBuffer msgBuffer = netClient.CreateBuffer();
+            NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.UseTool);
             msgBuffer.Write(playerPosition);
             msgBuffer.Write(playerCamera.GetLookVector());
             msgBuffer.Write((byte)PlayerTools.Pickaxe);
             msgBuffer.Write((byte)BlockType.None);
-            netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+            netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
         }
 
         public void FireConstructionGun(BlockType blockType)
@@ -564,14 +564,14 @@ namespace Infiniminer
 
         public void FireConstructionGun(BlockType blockType, bool alternate)
         {
-            if (netClient.Status != NetConnectionStatus.Connected)
+            if (netClient.Status != NetPeerStatus.Running)
                 return;
 
             playerToolCooldown = GetToolCooldown(PlayerTools.ConstructionGun);
             constructionGunAnimation = -5;
 
             // Send the message.
-            NetBuffer msgBuffer = netClient.CreateBuffer();
+            NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.UseTool);
             msgBuffer.Write(playerPosition);
             msgBuffer.Write(playerCamera.GetLookVector());
@@ -595,42 +595,42 @@ namespace Infiniminer
                 }
             }
             msgBuffer.Write((byte)nb);
-            netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+            netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
         }
 
         public void FireDeconstructionGun()
         {
-            if (netClient.Status != NetConnectionStatus.Connected)
+            if (netClient.Status != NetPeerStatus.Running)
                 return;
 
             playerToolCooldown = GetToolCooldown(PlayerTools.DeconstructionGun);
             constructionGunAnimation = -5;
 
             // Send the message.
-            NetBuffer msgBuffer = netClient.CreateBuffer();
+            NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.UseTool);
             msgBuffer.Write(playerPosition);
             msgBuffer.Write(playerCamera.GetLookVector());
             msgBuffer.Write((byte)PlayerTools.DeconstructionGun);
             msgBuffer.Write((byte)BlockType.None);
-            netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+            netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
         }
 
         public void FireDetonator()
         {
-            if (netClient.Status != NetConnectionStatus.Connected)
+            if (netClient.Status != NetPeerStatus.Running)
                 return;
 
             playerToolCooldown = GetToolCooldown(PlayerTools.Detonator);
 
             // Send the message.
-            NetBuffer msgBuffer = netClient.CreateBuffer();
+            NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.UseTool);
             msgBuffer.Write(playerPosition);
             msgBuffer.Write(playerCamera.GetLookVector());
             msgBuffer.Write((byte)PlayerTools.Detonator);
             msgBuffer.Write((byte)BlockType.None);
-            netClient.SendMessage(msgBuffer, NetChannel.ReliableUnordered);
+            netClient.SendMessage(msgBuffer, NetDeliveryMethod.ReliableUnordered);
         }
 
         public void ToggleRadar()
@@ -702,16 +702,16 @@ namespace Infiniminer
 
         public void SendPlayerUpdate()
         {
-            if (netClient.Status != NetConnectionStatus.Connected)
+            if (netClient.Status != NetPeerStatus.Running)
                 return;
 
-            NetBuffer msgBuffer = netClient.CreateBuffer();
+            NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.PlayerUpdate);
             msgBuffer.Write(playerPosition);
             msgBuffer.Write(playerCamera.GetLookVector());
             msgBuffer.Write((byte)playerTools[playerToolSelected]);
             msgBuffer.Write(playerToolCooldown > 0.001f);
-            netClient.SendMessage(msgBuffer, NetChannel.UnreliableInOrder1);
+            netClient.SendMessage(msgBuffer, NetDeliveryMethod.UnreliableSequenced);
         }
     }
 }

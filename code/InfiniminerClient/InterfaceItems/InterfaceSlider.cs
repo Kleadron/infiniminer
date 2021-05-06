@@ -117,11 +117,11 @@ namespace InterfaceItems
                     drawColour = new Color(.5f, .5f, .5f);
                 }
                 //Generate 1px white texture
-                Texture2D shade = new Texture2D(graphicsDevice, 1,1,1,TextureUsage.None,SurfaceFormat.Color);
+                Texture2D shade = new Texture2D(graphicsDevice, 1,1,false,SurfaceFormat.Color);
                 shade.SetData(new Color[] { Color.White });
                 //Draw end boxes
                 SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
-                spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Deferred, SaveStateMode.SaveState);
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
                 spriteBatch.Draw(shade, new Rectangle(size.X, size.Y, size.Height, size.Height), drawColour);
                 spriteBatch.Draw(shade, new Rectangle(size.X + size.Width - size.Height, size.Y, size.Height, size.Height), drawColour);
                 

@@ -85,8 +85,8 @@ namespace Infiniminer.States
         public override void OnRenderAtUpdate(GraphicsDevice graphicsDevice, GameTime gameTime)
         {
             uint dataPacketsRecieved = 0;
-            for (int x = 0; x < 64; x++)
-                for (int y = 0; y < 64; y+=16)
+            for (int x = 0; x < BlockEngine.MAPSIZE; x++)
+                for (int y = 0; y < BlockEngine.MAPSIZE; y += 16)
                     if (_P.mapLoadProgress[x, y])
                         dataPacketsRecieved += 1;
             string progressText = "Connecting...";
@@ -94,7 +94,7 @@ namespace Infiniminer.States
                 progressText = String.Format("{0:00}% LOADED", dataPacketsRecieved / 256.0f * 100);
 
             SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Deferred, SaveStateMode.SaveState);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             spriteBatch.Draw(texMenu, drawRect, Color.White);
             spriteBatch.DrawString(uiFont, progressText, new Vector2(((int)(_SM.GraphicsDevice.Viewport.Width / 2 - uiFont.MeasureString(progressText).X / 2)), drawRect.Y + 430), Color.White);
             for (int i=0; i<currentHint.Length; i++)

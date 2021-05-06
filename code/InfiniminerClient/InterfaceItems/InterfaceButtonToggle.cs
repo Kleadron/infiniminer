@@ -72,7 +72,7 @@ namespace InterfaceItems
                     drawColour = new Color(.85f, .85f, .85f);
 
                 //Generate 1px white texture
-                Texture2D shade = new Texture2D(graphicsDevice, 1, 1, 1, TextureUsage.None, SurfaceFormat.Color);
+                Texture2D shade = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
                 shade.SetData(new Color[] { Color.White });
                 
                 //Draw base button

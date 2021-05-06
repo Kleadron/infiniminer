@@ -11,7 +11,7 @@ namespace Infiniminer
 {
     public class InfiniminerNetServer : NetServer
     {
-        public InfiniminerNetServer(NetConfiguration config)
+        public InfiniminerNetServer(NetPeerConfiguration config)
             : base(config)
         {
         }
@@ -20,6 +20,7 @@ namespace Infiniminer
          * version of Lidgren will fix this issue. */
         public bool SanityCheck(NetConnection connection)
         {
+            /*
             if (this.m_connections.Contains(connection) == false)
             {
                 if (this.m_connectionLookup.ContainsKey(connection.RemoteEndpoint))
@@ -28,8 +29,9 @@ namespace Infiniminer
                     return true;
                 }
             }
-
-            return false;
+            */
+            //return false;
+            return true;
         }
     }
 }
