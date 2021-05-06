@@ -27,7 +27,7 @@ KNOWN ISSUES
 Polygons in BlockEngine tend to explore the outer reaches of the universe
 and other blocks.
 
-Bloom is busted.
+Player models are busted.
 
 Networking is greatly untested and is also probably busted.
 
