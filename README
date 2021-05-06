@@ -4,7 +4,7 @@ INFINIMINER
 BUILDING
 ========
 
-Building Infiniminer requires Visual Studio 2008 and XNA Game Studio 3.0. 
+Building Infiniminer requires Visual Studio 2010 and XNA Game Studio 4.0. 
 
 You'll also need the fonts 04b03b and 04b08 from the following site:
 
@@ -13,13 +13,26 @@ http://www.dsg4.com/04/extra/bitmap/
 Simply build the solution and you should be good to go.
 
 
+KNOWN ISSUES
+============
+Polygons in BlockEngine tend to explore the outer reaches of the universe
+and other blocks.
+
+Bloom is busted.
+
+Networking is greatly untested and is also probably busted.
+
+
 PATCHING AND ISSUE TRACKING
 ===========================
 
 The official branch is maintained by Zach Barth of Zachtronics Industries.
 
-Please push all patches and log all issues to the following branch:
+Unfortunately, the official branch is no longer available.
+Please push all patches and log all issues to this branch =]
 
+The original branch as follows:
 http://github.com/krispykrem/Infiniminer/tree/master
 
+Zachtronics Website:
 http://www.zachtronicsindustries.com
