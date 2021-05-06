@@ -296,9 +296,11 @@ namespace Infiniminer.States
 
         public override void OnRenderAtUpdate(GraphicsDevice graphicsDevice, GameTime gameTime)
         {
+            _P.blockEngine.BeginBloom(graphicsDevice);
+            graphicsDevice.Clear(Color.Black); // have to do this here but hopefully it doesn't screw anything up. Just don't draw anything before this :)
             _P.skyplaneEngine.Render(graphicsDevice);
             _P.particleEngine.Render(graphicsDevice);
-            _P.playerEngine.Render(graphicsDevice);
+            _P.playerEngine.Render(graphicsDevice); // PLAYERS DO NOT RENDER CORRECTLY
             _P.blockEngine.Render(graphicsDevice, gameTime);
             _P.playerEngine.RenderPlayerNames(graphicsDevice);
             _P.interfaceEngine.Render(graphicsDevice);
@@ -577,7 +579,7 @@ namespace Infiniminer.States
             {
                 if (scrollDelta >= 120)
                 {
-                    Console.WriteLine("Handling input for scroll up...");
+                    //Console.WriteLine("Handling input for scroll up..."); SPAM
                     HandleInput((_SM as InfiniminerGame).keyBinds.GetBound(MouseButton.WheelUp));//.keyBinds.GetBound(button));
                 }
                 else if (scrollDelta <= -120)

@@ -1,5 +1,5 @@
 # This value specifies your name - please change it to something unique!
-handle = Kleadron
+handle = Kleadron2
 
 width = 1024
 height = 768
@@ -7,13 +7,13 @@ fullscreen = false
 
 # If this flag is set to true, pretty mode will be enabled, which turns on bloom lighting!
 # If your performance is bad, try turning this off.
-pretty = false
+pretty = true
 
 showfps = true
 yinvert = false
 
 # This value specifies the override volume multiplier, for people who find the sounds too loud.
-volume = 1
+volume = 0.18
 
 #This value specifies the mouse sensitivity, from 1-50 default 5
 sensitivity = 5

@@ -249,9 +249,18 @@ namespace Infiniminer
             return false;
         }
 
+        public void BeginBloom(GraphicsDevice graphicsDevice)
+        {
+            if (bloomPosteffect != null)
+                bloomPosteffect.BeginBloom(graphicsDevice);
+        }
+
         public void Render(GraphicsDevice graphicsDevice, GameTime gameTime)
         {
             RegenerateDirtyVertexLists();
+
+            graphicsDevice.BlendState = BlendState.Opaque;
+            graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             for (BlockTexture blockTexture = BlockTexture.None+1; blockTexture < BlockTexture.MAXIMUM; blockTexture++)
                 for (uint r = 0; r < NUMREGIONS; r++)
@@ -317,7 +326,7 @@ namespace Infiniminer
                     graphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
                 }
 
-                graphicsDevice.RasterizerState = RasterizerState.CullNone;
+                graphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise; // CullCounterClockwise because this makes sense
                 graphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
                 //graphicsDevice.VertexDeclaration = vertexDeclaration;
                 //graphicsDevice.Vertices[0].SetSource(vertexBuffer, 0, VertexPositionTextureShade.SizeInBytes);

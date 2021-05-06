@@ -88,7 +88,7 @@ namespace Infiniminer
             SurfaceFormat format = pp.BackBufferFormat;
 
             // Create a texture for reading back the backbuffer contents.
-            resolveTarget = new RenderTarget2D(GraphicsDevice, width, height, false, format, DepthFormat.None);
+            resolveTarget = new RenderTarget2D(GraphicsDevice, width, height, false, format, DepthFormat.Depth24Stencil8);
 
             // Create two rendertargets for the bloom processing. These are half the
             // size of the backbuffer, in order to minimize fillrate costs. Reducing
@@ -116,6 +116,10 @@ namespace Infiniminer
 
         #region Draw
 
+        public void BeginBloom(GraphicsDevice device)
+        {
+            GraphicsDevice.SetRenderTarget(resolveTarget);
+        }
 
         /// <summary>
         /// This is where it all happens. Grabs a scene that has already been rendered,
@@ -125,7 +129,7 @@ namespace Infiniminer
         {
             // Resolve the scene into a texture, so we can
             // use it as input data for the bloom processing.
-            GraphicsDevice.SetRenderTarget(resolveTarget);
+            //GraphicsDevice.SetRenderTarget(resolveTarget);
 
             // Pass 1: draw the scene into rendertarget 1, using a
             // shader that extracts only the brightest parts of the image.
