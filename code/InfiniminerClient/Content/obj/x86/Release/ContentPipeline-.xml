@@ -191,15 +191,6 @@
       <Time>2021-05-03T15:40:34.6371616-07:00</Time>
     </Item>
     <Item>
-      <Source>ui\tex_ui_crosshair.png</Source>
-      <Name>ui\tex_ui_crosshair</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\GitHub\infiniminer\bin\Content\ui\tex_ui_crosshair.xnb</Output>
-      <Time>2021-05-03T15:40:35.4102058-07:00</Time>
-    </Item>
-    <Item>
       <Source>blocks\tex_block_explosive.png</Source>
       <Name>blocks\tex_block_explosive</Name>
       <Importer>TextureImporter</Importer>
@@ -1144,6 +1135,18 @@
       <Options>None</Options>
       <Output>C:\GitHub\infiniminer\bin\Content\menus\tex_menu_title.xnb</Output>
       <Time>2021-05-07T00:25:40.5318516-07:00</Time>
+    </Item>
+    <Item>
+      <Source>ui\tex_ui_crosshair.png</Source>
+      <Name>ui\tex_ui_crosshair</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Parameters>
+        <Data Key="TextureFormat">DxtCompressed</Data>
+      </Parameters>
+      <Options>None</Options>
+      <Output>C:\GitHub\infiniminer\bin\Content\ui\tex_ui_crosshair.xnb</Output>
+      <Time>2021-05-07T00:54:06.4954272-07:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

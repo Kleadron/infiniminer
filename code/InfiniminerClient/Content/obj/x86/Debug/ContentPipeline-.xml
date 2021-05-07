@@ -26,7 +26,7 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>C:\GitHub\infiniminer\bin\Content\effect_spritemodel.xnb</Output>
-      <Time>2021-05-03T15:40:35.0031825-07:00</Time>
+      <Time>2021-05-07T11:42:23.8012258-07:00</Time>
     </Item>
     <Item>
       <Source>effect_particle.fx</Source>
@@ -189,15 +189,6 @@
       <Options>None</Options>
       <Output>C:\GitHub\infiniminer\bin\Content\blocks\tex_block_home_blue.xnb</Output>
       <Time>2021-05-03T15:40:34.6371616-07:00</Time>
-    </Item>
-    <Item>
-      <Source>ui\tex_ui_crosshair.png</Source>
-      <Name>ui\tex_ui_crosshair</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\GitHub\infiniminer\bin\Content\ui\tex_ui_crosshair.xnb</Output>
-      <Time>2021-05-03T15:40:35.4102058-07:00</Time>
     </Item>
     <Item>
       <Source>blocks\tex_block_explosive.png</Source>
@@ -1144,6 +1135,18 @@
       <Output>C:\GitHub\infiniminer\bin\Content\song_title.xnb</Output>
       <Extra>C:\GitHub\infiniminer\bin\Content\song_title.wma</Extra>
       <Time>2021-05-03T15:40:35.1561913-07:00</Time>
+    </Item>
+    <Item>
+      <Source>ui\tex_ui_crosshair.png</Source>
+      <Name>ui\tex_ui_crosshair</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Parameters>
+        <Data Key="TextureFormat">DxtCompressed</Data>
+      </Parameters>
+      <Options>None</Options>
+      <Output>C:\GitHub\infiniminer\bin\Content\ui\tex_ui_crosshair.xnb</Output>
+      <Time>2021-05-07T00:54:06.4954272-07:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

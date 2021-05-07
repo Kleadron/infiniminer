@@ -19,7 +19,6 @@ Content\blocks\tex_block_ladder.xnb
 Content\blocks\tex_block_spikes.xnb
 Content\blocks\tex_block_ladder_top.xnb
 Content\blocks\tex_block_home_blue.xnb
-Content\ui\tex_ui_crosshair.xnb
 Content\blocks\tex_block_explosive.xnb
 Content\menus\tex_menu_class_blue.xnb
 Content\menus\tex_menu_class_red.xnb
@@ -118,4 +117,5 @@ Content\menus\tex_menu_help.xnb
 Content\menus\tex_menu_settings.xnb
 Content\menus\tex_menu_team_new.xnb
 Content\song_title.xnb
+Content\ui\tex_ui_crosshair.xnb
 Content\song_title.wma

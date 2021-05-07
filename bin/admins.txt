@@ -1,2 +1,0 @@
-#A list of all admins - just add one ip per line
-

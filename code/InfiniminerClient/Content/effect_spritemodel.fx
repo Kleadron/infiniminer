@@ -46,6 +46,9 @@ PixelToFrame BlockPS(VertexToPixel PSIn)
 	
 	Output.Color = tex2D(TextureSampler, PSIn.TextureCoords);
 
+	if (Output.Color.a == 0)
+		clip(-1);
+
 	return Output;
 }
 

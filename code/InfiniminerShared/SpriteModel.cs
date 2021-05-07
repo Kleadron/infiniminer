@@ -120,8 +120,8 @@ namespace Infiniminer
             effect.Parameters["xTexture"].SetValue(texSprite);
             effect.Techniques[0].Passes[0].Apply();
 
-            graphicsDevice.BlendState = BlendState.AlphaBlend;
-            graphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
+            graphicsDevice.BlendState = BlendState.Opaque;
+            graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             graphicsDevice.RasterizerState = RasterizerState.CullNone;
             graphicsDevice.SamplerStates[0] = SamplerState.PointClamp;

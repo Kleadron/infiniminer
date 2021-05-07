@@ -1313,16 +1313,18 @@ namespace Infiniminer
             blockList[x, y, z] = blockType;
             blockCreatorTeam[x, y, z] = team;
 
-            // x, y, z, type, all bytes
-            NetOutgoingMessage msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.BlockSet);
-            msgBuffer.Write((byte)x);
-            msgBuffer.Write((byte)y);
-            msgBuffer.Write((byte)z);
-            msgBuffer.Write((byte)blockType);
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn.Status == NetConnectionStatus.Connected)
+                {
+                    // x, y, z, type, all bytes
+                    NetOutgoingMessage msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.BlockSet);
+                    msgBuffer.Write((byte)x);
+                    msgBuffer.Write((byte)y);
+                    msgBuffer.Write((byte)z);
+                    msgBuffer.Write((byte)blockType);
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableUnordered);
+                }
 
             if (blockType == BlockType.Lava)
                 lavaBlockCount += 1;
@@ -1627,12 +1629,6 @@ namespace Infiniminer
                                                     else
                                                         chatString = player.Handle + " (TEAM): " + chatString;
 
-                                                    // Construct the message packet.
-                                                    NetOutgoingMessage chatPacket = netServer.CreateMessage();
-                                                    chatPacket.Write((byte)InfiniminerMessage.ChatMessage);
-                                                    chatPacket.Write((byte)((player.Team == PlayerTeam.Red) ? ChatMessageType.SayRedTeam : ChatMessageType.SayBlueTeam));
-                                                    chatPacket.Write(chatString);
-
                                                     // Send the packet to people who should recieve it.
                                                     foreach (Player p in playerList.Values)
                                                     {
@@ -1640,7 +1636,14 @@ namespace Infiniminer
                                                             chatType == ChatMessageType.SayBlueTeam && p.Team == PlayerTeam.Blue ||
                                                             chatType == ChatMessageType.SayRedTeam && p.Team == PlayerTeam.Red)
                                                             if (p.NetConn.Status == NetConnectionStatus.Connected)
+                                                            {
+                                                                // Construct the message packet.
+                                                                NetOutgoingMessage chatPacket = netServer.CreateMessage();
+                                                                chatPacket.Write((byte)InfiniminerMessage.ChatMessage);
+                                                                chatPacket.Write((byte)((player.Team == PlayerTeam.Red) ? ChatMessageType.SayRedTeam : ChatMessageType.SayBlueTeam));
+                                                                chatPacket.Write(chatString);
                                                                 netServer.SendMessage(chatPacket, p.NetConn, NetDeliveryMethod.ReliableOrdered);
+                                                            }
                                                     }
                                                 }
                                             }
@@ -2262,13 +2265,15 @@ namespace Infiniminer
 
         public void ExplosionEffectAtPoint(int x, int y, int z)
         {
-            // Send off the explosion to clients.
-            NetOutgoingMessage msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.TriggerExplosion);
-            msgBuffer.Write(new Vector3(x, y, z));
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn.Status == NetConnectionStatus.Connected)
+                {
+                    // Send off the explosion to clients.
+                    NetOutgoingMessage msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.TriggerExplosion);
+                    msgBuffer.Write(new Vector3(x, y, z));
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableUnordered);
+                }
             //Or not, there's no dedicated function for this effect >:(
         }
 
@@ -2472,13 +2477,15 @@ namespace Infiniminer
 
         public void SendServerMessage(string message)
         {
-            NetOutgoingMessage msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.ChatMessage);
-            msgBuffer.Write((byte)ChatMessageType.SayAll);
-            msgBuffer.Write(Defines.Sanitize(message));
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn.Status == NetConnectionStatus.Connected)
+                {
+                    NetOutgoingMessage msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.ChatMessage);
+                    msgBuffer.Write((byte)ChatMessageType.SayAll);
+                    msgBuffer.Write(Defines.Sanitize(message));
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableOrdered);
+                }
         }
 
         // Lets a player know about their resources.
@@ -2547,49 +2554,54 @@ namespace Infiniminer
 
         public void SendPlayerPing(uint playerId)
         {
-            NetOutgoingMessage msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.PlayerPing);
-            msgBuffer.Write(playerId);
-
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn.Status == NetConnectionStatus.Connected)
+                {
+                    NetOutgoingMessage msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.PlayerPing);
+                    msgBuffer.Write(playerId);
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableUnordered);
+                }
         }
 
         public void SendPlayerUpdate(Player player)
         {
-            NetOutgoingMessage msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.PlayerUpdate);
-            msgBuffer.Write((uint)player.ID);
-            msgBuffer.Write(player.Position);
-            msgBuffer.Write(player.Heading);
-            msgBuffer.Write((byte)player.Tool);
-
-            if (player.QueueAnimationBreak)
-            {
-                player.QueueAnimationBreak = false;
-                msgBuffer.Write(false);
-            }
-            else
-                msgBuffer.Write(player.UsingTool);
-
-            msgBuffer.Write((ushort)player.Score / 100);
-
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn.Status == NetConnectionStatus.Connected)
+                {
+                    NetOutgoingMessage msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.PlayerUpdate);
+                    msgBuffer.Write((uint)player.ID);
+                    msgBuffer.Write(player.Position);
+                    msgBuffer.Write(player.Heading);
+                    msgBuffer.Write((byte)player.Tool);
+
+                    if (player.QueueAnimationBreak)
+                    {
+                        player.QueueAnimationBreak = false;
+                        msgBuffer.Write(false);
+                    }
+                    else
+                        msgBuffer.Write(player.UsingTool);
+
+                    msgBuffer.Write((ushort)player.Score / 100);
+
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableOrdered);
+                }
         }
 
         public void SendSetBeacon(Vector3 position, string text, PlayerTeam team)
         {
-            NetOutgoingMessage msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.SetBeacon);
-            msgBuffer.Write(position);
-            msgBuffer.Write(text);
-            msgBuffer.Write((byte)team);
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn.Status == NetConnectionStatus.Connected)
+                {
+                    NetOutgoingMessage msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.SetBeacon);
+                    msgBuffer.Write(position);
+                    msgBuffer.Write(text);
+                    msgBuffer.Write((byte)team);
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableOrdered);
+                }
         }
 
         public void SendPlayerJoined(Player player)
@@ -2630,102 +2642,119 @@ namespace Infiniminer
                     netServer.SendMessage(msgBuffer, player.NetConn, NetDeliveryMethod.ReliableOrdered);
             }
 
-            // Let other players know about this player.
-            msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.PlayerJoined);
-            msgBuffer.Write((uint)player.ID);
-            msgBuffer.Write(player.Handle);
-            msgBuffer.Write(false);
-            msgBuffer.Write(player.Alive);
-
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn != player.NetConn && netConn.Status == NetConnectionStatus.Connected)
+                {
+                    // Let other players know about this player.
+                    msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.PlayerJoined);
+                    msgBuffer.Write((uint)player.ID);
+                    msgBuffer.Write(player.Handle);
+                    msgBuffer.Write(false);
+                    msgBuffer.Write(player.Alive);
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableOrdered);
+                }
 
             // Send this out just incase someone is joining at the last minute.
             if (winningTeam != PlayerTeam.None)
                 BroadcastGameOver();
 
-            // Send out a chat message.
-            msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.ChatMessage);
-            msgBuffer.Write((byte)ChatMessageType.SayAll);
-            msgBuffer.Write(player.Handle + " HAS JOINED THE ADVENTURE!");
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn.Status == NetConnectionStatus.Connected)
+                {
+                    // Send out a chat message.
+                    msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.ChatMessage);
+                    msgBuffer.Write((byte)ChatMessageType.SayAll);
+                    msgBuffer.Write(player.Handle + " HAS JOINED THE ADVENTURE!");
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableOrdered);
+                }
         }
 
         public void BroadcastGameOver()
         {
-            NetOutgoingMessage msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.GameOver);
-            msgBuffer.Write((byte)winningTeam);
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn.Status == NetConnectionStatus.Connected)
+                {
+                    NetOutgoingMessage msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.GameOver);
+                    msgBuffer.Write((byte)winningTeam);
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableOrdered);
+                }
         }
 
         public void SendPlayerLeft(Player player, string reason)
         {
-            NetOutgoingMessage msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.PlayerLeft);
-            msgBuffer.Write((uint)player.ID);
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn != player.NetConn && netConn.Status == NetConnectionStatus.Connected)
+                {
+                    NetOutgoingMessage msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.PlayerLeft);
+                    msgBuffer.Write((uint)player.ID);
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableOrdered);
+                }
 
-            // Send out a chat message.
-            msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.ChatMessage);
-            msgBuffer.Write((byte)ChatMessageType.SayAll);
-            msgBuffer.Write(player.Handle + " " + reason);
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn.Status == NetConnectionStatus.Connected)
+                {
+                    // Send out a chat message.
+                    NetOutgoingMessage msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.ChatMessage);
+                    msgBuffer.Write((byte)ChatMessageType.SayAll);
+                    msgBuffer.Write(player.Handle + " " + reason);
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableOrdered);
+                }
         }
 
         public void SendPlayerSetTeam(Player player)
         {
-            NetOutgoingMessage msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.PlayerSetTeam);
-            msgBuffer.Write((uint)player.ID);
-            msgBuffer.Write((byte)player.Team);
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn.Status == NetConnectionStatus.Connected)
+                {
+                    NetOutgoingMessage msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.PlayerSetTeam);
+                    msgBuffer.Write((uint)player.ID);
+                    msgBuffer.Write((byte)player.Team);
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableOrdered);
+                }
         }
 
         public void SendPlayerDead(Player player)
         {
-            NetOutgoingMessage msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.PlayerDead);
-            msgBuffer.Write((uint)player.ID);
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn.Status == NetConnectionStatus.Connected)
+                {
+                    NetOutgoingMessage msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.PlayerDead);
+                    msgBuffer.Write((uint)player.ID);
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableOrdered);
+                }
         }
 
         public void SendPlayerAlive(Player player)
         {
-            NetOutgoingMessage msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.PlayerAlive);
-            msgBuffer.Write((uint)player.ID);
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn.Status == NetConnectionStatus.Connected)
+                {
+                    NetOutgoingMessage msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.PlayerAlive);
+                    msgBuffer.Write((uint)player.ID);
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableOrdered);
+                }   
         }
 
         public void PlaySound(InfiniminerSound sound, Vector3 position)
         {
-            NetOutgoingMessage msgBuffer = netServer.CreateMessage();
-            msgBuffer.Write((byte)InfiniminerMessage.PlaySound);
-            msgBuffer.Write((byte)sound);
-            msgBuffer.Write(true);
-            msgBuffer.Write(position);
             foreach (NetConnection netConn in playerList.Keys)
                 if (netConn.Status == NetConnectionStatus.Connected)
+                {
+                    NetOutgoingMessage msgBuffer = netServer.CreateMessage();
+                    msgBuffer.Write((byte)InfiniminerMessage.PlaySound);
+                    msgBuffer.Write((byte)sound);
+                    msgBuffer.Write(true);
+                    msgBuffer.Write(position);
                     netServer.SendMessage(msgBuffer, netConn, NetDeliveryMethod.ReliableOrdered);
+                }
         }
 
         Thread updater;
