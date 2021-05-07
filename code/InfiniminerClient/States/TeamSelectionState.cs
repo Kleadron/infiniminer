@@ -33,12 +33,12 @@ namespace Infiniminer.States
         {
             _SM.IsMouseVisible = true;
 
-            texMenu = _SM.Content.Load<Texture2D>("menus/tex_menu_team");
+            texMenu = _SM.ScratchContent.Load<Texture2D>("menus/tex_menu_team_new");
 
             drawRect = new Rectangle(_SM.GraphicsDevice.Viewport.Width / 2 - 1024 / 2,
                                      _SM.GraphicsDevice.Viewport.Height / 2 - 768 / 2,
                                      1024,
-                                     1024);
+                                     768);
 
             uiFont = _SM.Content.Load<SpriteFont>("font_04b08");
 
@@ -48,7 +48,7 @@ namespace Infiniminer.States
 
         public override void OnLeave(string newState)
         {
-
+            _SM.ScratchContent.Unload();
         }
 
         public override string OnUpdate(GameTime gameTime, KeyboardState keyState, MouseState mouseState)
@@ -82,7 +82,7 @@ namespace Infiniminer.States
 
             SpriteBatch spriteBatch = _P.spriteBatch;
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            spriteBatch.Draw(texMenu, drawRect, Color.White);
+            spriteBatch.Draw(texMenu, drawRect, new Rectangle(0, 0, 1024, 768), Color.White);
             QuickDrawText(spriteBatch, "" + redTeamCount + " PLAYERS", 360, _P.red);//Defines.IM_RED);
             QuickDrawText(spriteBatch, "" + blueTeamCount + " PLAYERS", 620, _P.blue);//Defines.IM_BLUE);
             spriteBatch.End();

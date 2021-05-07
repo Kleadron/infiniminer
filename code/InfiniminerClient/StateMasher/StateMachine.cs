@@ -45,9 +45,12 @@ namespace StateMasher
         //private Dictionary<Keys, bool> keysDown = new Dictionary<Keys, bool>();
         private MouseState msOld;
 
+        public ContentManager ScratchContent;
+
         public StateMachine()
         {
             Content.RootDirectory = "Content";
+            ScratchContent = new ContentManager(Services, "Content"); // for big things to be unloaded
             graphicsDeviceManager = new GraphicsDeviceManager(this);
             EventInput.EventInput.Initialize(this.Window);
             EventInput.EventInput.CharEntered += new EventInput.CharEnteredHandler(EventInput_CharEntered);

@@ -34,13 +34,13 @@ namespace Infiniminer.States
         {
             _SM.IsMouseVisible = true;
 
-            texMenuRed = _SM.Content.Load<Texture2D>("menus/tex_menu_class_red");
-            texMenuBlue = _SM.Content.Load<Texture2D>("menus/tex_menu_class_blue");
+            texMenuRed = _SM.ScratchContent.Load<Texture2D>("menus/tex_menu_class_red");
+            texMenuBlue = _SM.ScratchContent.Load<Texture2D>("menus/tex_menu_class_blue");
 
             drawRect = new Rectangle(_SM.GraphicsDevice.Viewport.Width / 2 - 1024 / 2,
                                      _SM.GraphicsDevice.Viewport.Height / 2 - 768 / 2,
                                      1024,
-                                     1024);
+                                     768);
 
             //_P.KillPlayer("");
         }
@@ -48,6 +48,7 @@ namespace Infiniminer.States
         public override void OnLeave(string newState)
         {
             //_P.RespawnPlayer();
+            _SM.ScratchContent.Unload();
         }
 
         public override string OnUpdate(GameTime gameTime, KeyboardState keyState, MouseState mouseState)
@@ -72,7 +73,8 @@ namespace Infiniminer.States
         {
             SpriteBatch spriteBatch = _P.spriteBatch;
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            spriteBatch.Draw((_P.playerTeam == PlayerTeam.Red)?texMenuRed:texMenuBlue, drawRect, Color.White);
+            Texture2D teamClasses = (_P.playerTeam == PlayerTeam.Red) ? texMenuRed : texMenuBlue;
+            spriteBatch.Draw(teamClasses, drawRect, new Rectangle(0, 0, 1024, 768), Color.White);
             spriteBatch.End();
         }
 

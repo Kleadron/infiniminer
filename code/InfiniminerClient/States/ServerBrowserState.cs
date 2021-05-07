@@ -40,12 +40,12 @@ namespace Infiniminer.States
             (_SM as InfiniminerGame).ResetPropertyBag();
             _P = _SM.propertyBag;
 
-            texMenu = _SM.Content.Load<Texture2D>("menus/tex_menu_server");
+            texMenu = _SM.ScratchContent.Load<Texture2D>("menus/tex_menu_server");
 
             drawRect = new Rectangle(_SM.GraphicsDevice.Viewport.Width / 2 - 1024 / 2,
                                      _SM.GraphicsDevice.Viewport.Height / 2 - 768 / 2,
                                      1024,
-                                     1024);
+                                     768);
 
             uiFont = _SM.Content.Load<SpriteFont>("font_04b08");
             //keyMap = new KeyMap();
@@ -55,7 +55,7 @@ namespace Infiniminer.States
 
         public override void OnLeave(string newState)
         {
-
+            _SM.ScratchContent.Unload();
         }
 
         public override string OnUpdate(GameTime gameTime, KeyboardState keyState, MouseState mouseState)
@@ -73,7 +73,7 @@ namespace Infiniminer.States
             descWidths = new List<int>();
             SpriteBatch spriteBatch = _P.spriteBatch;
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            spriteBatch.Draw(texMenu, drawRect, Color.White);
+            spriteBatch.Draw(texMenu, drawRect, new Rectangle(0, 0, 1024, 768), Color.White);
 
             int drawY = 80;
             foreach (ServerInformation server in serverList)

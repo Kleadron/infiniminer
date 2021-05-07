@@ -50,12 +50,12 @@ namespace Infiniminer.States
         {
             _SM.IsMouseVisible = false;
 
-            texMenu = _SM.Content.Load<Texture2D>("menus/tex_menu_loading");
+            texMenu = _SM.ScratchContent.Load<Texture2D>("menus/tex_menu_loading");
 
             drawRect = new Rectangle(_SM.GraphicsDevice.Viewport.Width / 2 - 1024 / 2,
                                      _SM.GraphicsDevice.Viewport.Height / 2 - 768 / 2,
                                      1024,
-                                     1024);
+                                     768);
 
             uiFont = _SM.Content.Load<SpriteFont>("font_04b08");
 
@@ -66,7 +66,7 @@ namespace Infiniminer.States
 
         public override void OnLeave(string newState)
         {
-
+            _SM.ScratchContent.Unload();
         }
 
         public override string OnUpdate(GameTime gameTime, KeyboardState keyState, MouseState mouseState)
@@ -95,7 +95,7 @@ namespace Infiniminer.States
 
             SpriteBatch spriteBatch = _P.spriteBatch;
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            spriteBatch.Draw(texMenu, drawRect, Color.White);
+            spriteBatch.Draw(texMenu, drawRect, new Rectangle(0, 0, 1024, 768), Color.White);
             spriteBatch.DrawString(uiFont, progressText, new Vector2(((int)(_SM.GraphicsDevice.Viewport.Width / 2 - uiFont.MeasureString(progressText).X / 2)), drawRect.Y + 430), Color.White);
             for (int i=0; i<currentHint.Length; i++)
                 spriteBatch.DrawString(uiFont, currentHint[i], new Vector2(((int)(_SM.GraphicsDevice.Viewport.Width / 2 - uiFont.MeasureString(currentHint[i]).X / 2)), drawRect.Y + 600+25*i), Color.White);

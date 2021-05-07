@@ -25,17 +25,17 @@ namespace Infiniminer.States
         {
             _SM.IsMouseVisible = true;
 
-            texMenu = _SM.Content.Load<Texture2D>("menus/tex_menu_title");
+            texMenu = _SM.ScratchContent.Load<Texture2D>("menus/tex_menu_title");
 
             drawRect = new Rectangle(_SM.GraphicsDevice.Viewport.Width / 2 - 1024 / 2,
                                      _SM.GraphicsDevice.Viewport.Height / 2 - 768 / 2,
                                      1024,
-                                     1024);
+                                     768);
         }
 
         public override void OnLeave(string newState)
         {
-
+            _SM.ScratchContent.Unload();
         }
 
         public override string OnUpdate(GameTime gameTime, KeyboardState keyState, MouseState mouseState)
@@ -55,7 +55,7 @@ namespace Infiniminer.States
         {
             SpriteBatch spriteBatch = _P.spriteBatch;
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            spriteBatch.Draw(texMenu, drawRect, Color.White);
+            spriteBatch.Draw(texMenu, drawRect, new Rectangle(0, 0, 1024, 768), Color.White);
             spriteBatch.End();
         }
 

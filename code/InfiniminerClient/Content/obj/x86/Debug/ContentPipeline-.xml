@@ -227,24 +227,6 @@
       <Time>2021-05-03T15:40:35.0421847-07:00</Time>
     </Item>
     <Item>
-      <Source>menus\tex_menu_team.png</Source>
-      <Name>menus\tex_menu_team</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\GitHub\infiniminer\bin\Content\menus\tex_menu_team.xnb</Output>
-      <Time>2021-05-03T15:40:35.13419-07:00</Time>
-    </Item>
-    <Item>
-      <Source>menus\tex_menu_server.png</Source>
-      <Name>menus\tex_menu_server</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\GitHub\infiniminer\bin\Content\menus\tex_menu_server.xnb</Output>
-      <Time>2021-05-03T15:40:35.1311898-07:00</Time>
-    </Item>
-    <Item>
       <Source>sprites\tex_sprite_blue_construction.png</Source>
       <Name>sprites\tex_sprite_blue_construction</Name>
       <Importer>TextureImporter</Importer>
@@ -323,7 +305,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\GitHub\infiniminer\bin\Content\menus\tex_menu_title.xnb</Output>
-      <Time>2021-05-03T15:40:35.1401903-07:00</Time>
+      <Time>2021-05-07T00:25:40.5318516-07:00</Time>
     </Item>
     <Item>
       <Source>ui\tex_radar_background.png</Source>
@@ -342,15 +324,6 @@
       <Options>None</Options>
       <Output>C:\GitHub\infiniminer\bin\Content\ui\tex_radar_foreground.xnb</Output>
       <Time>2021-05-03T15:40:35.3922048-07:00</Time>
-    </Item>
-    <Item>
-      <Source>menus\tex_menu_loading.png</Source>
-      <Name>menus\tex_menu_loading</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\GitHub\infiniminer\bin\Content\menus\tex_menu_loading.xnb</Output>
-      <Time>2021-05-03T15:40:35.1301898-07:00</Time>
     </Item>
     <Item>
       <Source>blocks\tex_block_metal.png</Source>
@@ -378,15 +351,6 @@
       <Options>None</Options>
       <Output>C:\GitHub\infiniminer\bin\Content\sprites\tex_sprite_red_drill.xnb</Output>
       <Time>2021-05-03T15:40:35.3212007-07:00</Time>
-    </Item>
-    <Item>
-      <Source>menus\tex_menu_help.png</Source>
-      <Name>menus\tex_menu_help</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\GitHub\infiniminer\bin\Content\menus\tex_menu_help.xnb</Output>
-      <Time>2021-05-03T15:40:35.1291897-07:00</Time>
     </Item>
     <Item>
       <Source>blocks\tex_block_dirt_sign.png</Source>
@@ -884,15 +848,6 @@
       <Time>2021-05-03T15:40:35.4062056-07:00</Time>
     </Item>
     <Item>
-      <Source>menus\tex_menu_settings.png</Source>
-      <Name>menus\tex_menu_settings</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\GitHub\infiniminer\bin\Content\menus\tex_menu_settings.xnb</Output>
-      <Time>2021-05-03T15:40:35.1321899-07:00</Time>
-    </Item>
-    <Item>
       <Source>blocks\tex_block_road_top.png</Source>
       <Name>blocks\tex_block_road_top</Name>
       <Importer>TextureImporter</Importer>
@@ -1109,10 +1064,82 @@
       <Time>2021-05-03T15:40:35.2081942-07:00</Time>
     </Item>
     <Item>
+      <Source>blocks\tex_block_road_orig.png</Source>
+      <Name>blocks\tex_block_road_orig</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\GitHub\infiniminer\bin\Content\blocks\tex_block_road_orig.xnb</Output>
+      <Time>2021-05-03T15:40:34.6611629-07:00</Time>
+    </Item>
+    <Item>
+      <Source>menus\tex_menu_server.png</Source>
+      <Name>menus\tex_menu_server</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Parameters>
+        <Data Key="TextureFormat">DxtCompressed</Data>
+      </Parameters>
+      <Options>None</Options>
+      <Output>C:\GitHub\infiniminer\bin\Content\menus\tex_menu_server.xnb</Output>
+      <Time>2021-05-03T15:40:35.1311898-07:00</Time>
+    </Item>
+    <Item>
+      <Source>menus\tex_menu_loading.png</Source>
+      <Name>menus\tex_menu_loading</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Parameters>
+        <Data Key="TextureFormat">DxtCompressed</Data>
+      </Parameters>
+      <Options>None</Options>
+      <Output>C:\GitHub\infiniminer\bin\Content\menus\tex_menu_loading.xnb</Output>
+      <Time>2021-05-03T15:40:35.1301898-07:00</Time>
+    </Item>
+    <Item>
+      <Source>menus\tex_menu_help.png</Source>
+      <Name>menus\tex_menu_help</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Parameters>
+        <Data Key="TextureFormat">DxtCompressed</Data>
+      </Parameters>
+      <Options>None</Options>
+      <Output>C:\GitHub\infiniminer\bin\Content\menus\tex_menu_help.xnb</Output>
+      <Time>2021-05-03T15:40:35.1291897-07:00</Time>
+    </Item>
+    <Item>
+      <Source>menus\tex_menu_settings.png</Source>
+      <Name>menus\tex_menu_settings</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Parameters>
+        <Data Key="TextureFormat">DxtCompressed</Data>
+      </Parameters>
+      <Options>None</Options>
+      <Output>C:\GitHub\infiniminer\bin\Content\menus\tex_menu_settings.xnb</Output>
+      <Time>2021-05-03T15:40:35.1321899-07:00</Time>
+    </Item>
+    <Item>
+      <Source>menus\tex_menu_team_new.png</Source>
+      <Name>menus\tex_menu_team_new</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Parameters>
+        <Data Key="TextureFormat">DxtCompressed</Data>
+      </Parameters>
+      <Options>None</Options>
+      <Output>C:\GitHub\infiniminer\bin\Content\menus\tex_menu_team_new.xnb</Output>
+      <Time>2021-05-06T23:09:13.0054601-07:00</Time>
+    </Item>
+    <Item>
       <Source>song_title.mp3</Source>
       <Name>song_title</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
+      <Parameters>
+        <Data Key="Quality">Low</Data>
+      </Parameters>
       <Options>None</Options>
       <Output>C:\GitHub\infiniminer\bin\Content\song_title.xnb</Output>
       <Extra>C:\GitHub\infiniminer\bin\Content\song_title.wma</Extra>

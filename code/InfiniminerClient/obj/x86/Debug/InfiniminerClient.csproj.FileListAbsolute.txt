@@ -89,7 +89,6 @@ C:\GitHub\infiniminer\bin\Content\sprites\tex_sprite_blue_pickaxe.xnb
 C:\GitHub\infiniminer\bin\Content\icons\tex_icon_teleporter.xnb
 C:\GitHub\infiniminer\bin\Content\blocks\tex_block_bank_left_red.xnb
 C:\GitHub\infiniminer\bin\Content\blocks\tex_block_beacon_top_blue.xnb
-C:\GitHub\infiniminer\bin\Content\menus\tex_menu_team.xnb
 C:\GitHub\infiniminer\bin\Content\blocks\tex_block_dirt.xnb
 C:\GitHub\infiniminer\bin\Content\sprites\tex_sprite_red_radar.xnb
 C:\GitHub\infiniminer\bin\Content\sprites\tex_sprite_blue_drill.xnb
@@ -124,3 +123,5 @@ C:\GitHub\infiniminer\code\InfiniminerClient\obj\x86\Debug\Microsoft.Xna.Framewo
 C:\GitHub\infiniminer\code\InfiniminerClient\obj\x86\Debug\Infiniminer.exe
 C:\GitHub\infiniminer\code\InfiniminerClient\obj\x86\Debug\Infiniminer.pdb
 C:\GitHub\infiniminer\code\InfiniminerClient\obj\x86\Debug\InfiniminerClient.csprojResolveAssemblyReference.cache
+C:\GitHub\infiniminer\bin\Content\menus\tex_menu_team_new.xnb
+C:\GitHub\infiniminer\bin\Content\blocks\tex_block_road_orig.xnb

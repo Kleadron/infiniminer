@@ -1,0 +1,1 @@
+C:\GitHub\infiniminer\code\InfiniminerClient\Content\obj\x86\Release\InfiniminerClientContent.contentprojResolveAssemblyReference.cache

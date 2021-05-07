@@ -1191,7 +1191,9 @@ namespace Infiniminer
                     for (int z = 0; z < 64; z++)
                         sw.WriteLine((byte)blockList[x, y, z] + "," + (byte)blockCreatorTeam[x, y, z]);
             sw.Close();
+            sw.Dispose();
             fs.Close();
+            fs.Dispose();
         }
 
         public bool LoadLevel(string filename)
@@ -1225,7 +1227,9 @@ namespace Infiniminer
                 ConsoleWrite("Level loaded successfully - now playing " + filename + "!");
                 return true;
             }
-            catch { }
+            catch {
+                ConsoleWrite("Couldn't load level.");
+            }
             return false;
         }
 
@@ -1863,7 +1867,8 @@ namespace Infiniminer
                 }
 
                 // Pass control over to waiting threads.
-                Thread.Sleep(1);
+                // Change to 10 to try and not choke the processor
+                Thread.Sleep(10);
             }
 
             MessageAll("Server going down NOW!");

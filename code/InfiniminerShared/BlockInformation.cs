@@ -68,8 +68,8 @@ namespace Infiniminer
         DirtSign,
         Lava,
         Road,
-        RoadTop,
-        RoadBottom,
+        //RoadTop,
+        //RoadBottom,
         BeaconRed,
         BeaconBlue,
         TransRed,   // THESE MUST BE THE LAST TWO TEXTURES
@@ -187,10 +187,10 @@ namespace Infiniminer
                     break;
 
                 case BlockType.Road:
-                    if (faceDir == BlockFaceDirection.YIncreasing)
-                        return BlockTexture.RoadTop;
-                    else if (faceDir == BlockFaceDirection.YDecreasing||blockAbove!=BlockType.None) //Looks better but won't work with current graphics setup...
-                        return BlockTexture.RoadBottom;
+                    //if (faceDir == BlockFaceDirection.YIncreasing)
+                    //    return BlockTexture.RoadTop;
+                    //else if (faceDir == BlockFaceDirection.YDecreasing||blockAbove!=BlockType.None) //Looks better but won't work with current graphics setup...
+                    //    return BlockTexture.RoadBottom;
                     return BlockTexture.Road;
 
                 case BlockType.Shock:

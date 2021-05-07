@@ -139,16 +139,16 @@ namespace Infiniminer.States
             _SM.IsMouseVisible = true;
 
             //Load the background
-            texSettings = _SM.Content.Load<Texture2D>("menus/tex_menu_settings");
+            texSettings = _SM.ScratchContent.Load<Texture2D>("menus/tex_menu_settings");
             drawRect = new Rectangle(_SM.GraphicsDevice.Viewport.Width / 2 - 1024 / 2,
                                                  _SM.GraphicsDevice.Viewport.Height / 2 - 768 / 2,
                                                  1024,
-                                                 1024);
+                                                 768);
 
             //Read the data from file
             DatafileWriter dw = new DatafileWriter("client.config.txt");
 
-            currentPos = new Vector2(200, 100);
+            currentPos = new Vector2(200 + drawRect.X, 100 + drawRect.Y);
             originalY = (int)currentPos.Y;
 
             addLabelAutomatic("User Settings");
@@ -157,7 +157,7 @@ namespace Infiniminer.States
 
             addLabelAutomatic("Screen Settings");
                 addTextInputAutomatic("Scrn  Width", dw.Data.ContainsKey("width") ? dw.Data["width"] : "1024");
-                addTextInputAutomatic("Scrn Height", dw.Data.ContainsKey("height") ? dw.Data["height"] : "780");
+                addTextInputAutomatic("Scrn Height", dw.Data.ContainsKey("height") ? dw.Data["height"] : "768");
                 addButtonAutomatic("Screen Mode", "Fullscreen", "Windowed", dw.Data.ContainsKey("fullscreen") ? bool.Parse(dw.Data["fullscreen"]) : false);
             addSpace(16);
 
@@ -184,24 +184,31 @@ namespace Infiniminer.States
 
         public override void OnLeave(string newState)
         {
-            base.OnLeave(newState);
+            _SM.ScratchContent.Unload();
         }
 
         public override void OnMouseDown(MouseButton button, int x, int y)
         {
-            base.OnMouseDown(button, x, y);
             foreach (InterfaceElement element in elements)
             {
                 element.OnMouseDown(button, x, y);
             }
+            x -= drawRect.X;
+            y -= drawRect.Y;
             switch(ClickRegion.HitTest(clkMenuSettings,new Point(x,y)))
             {
                 case "cancel":
                     nextState = "Infiniminer.States.ServerBrowserState";
+                    _P.PlaySound(InfiniminerSound.ClickHigh);
                     break;
                 case "accept":
-                    if (saveData()>=1)
+                    if (saveData() >= 1)
+                    {
+                        _P.PlaySound(InfiniminerSound.ClickHigh);
                         _SM.Exit();
+                        if (!Debugger.IsAttached)
+                            Process.Start("Infiniminer.exe");
+                    }
                     break;
                 /*case "keylayout":
                     saveData();
@@ -212,7 +219,6 @@ namespace Infiniminer.States
 
         public override void OnMouseUp(MouseButton button, int x, int y)
         {
-            base.OnMouseUp(button, x, y);
             foreach (InterfaceElement element in elements)
             {
                 element.OnMouseUp(button, x, y);
@@ -293,7 +299,7 @@ namespace Infiniminer.States
         {
             SpriteBatch spriteBatch = _P.spriteBatch;
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            spriteBatch.Draw(texSettings, drawRect, Color.White);
+            spriteBatch.Draw(texSettings, drawRect, new Rectangle(0, 0, 1024, 768), Color.White);
             spriteBatch.End();
             foreach (InterfaceElement element in elements)
             {
