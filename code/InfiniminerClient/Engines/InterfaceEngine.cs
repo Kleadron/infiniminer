@@ -277,10 +277,12 @@ namespace Infiniminer
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             // Draw the crosshair.
-            spriteBatch.Draw(texCrosshairs, new Rectangle(graphicsDevice.Viewport.Width / 2 - texCrosshairs.Width / 2,
-                                                            graphicsDevice.Viewport.Height / 2 - texCrosshairs.Height / 2,
-                                                            texCrosshairs.Width,
-                                                            texCrosshairs.Height), Color.White);
+            spriteBatch.Draw(texCrosshairs, 
+                new Rectangle(graphicsDevice.Viewport.Width / 2 - texCrosshairs.Width / 2,
+                              graphicsDevice.Viewport.Height / 2 - texCrosshairs.Height / 2,
+                              texCrosshairs.Width,
+                              texCrosshairs.Height), 
+                new Color(215, 0, 0, 255)); // Crosshair tex is now white, so the OG color was put here. Possible per-team?
 
             // If equipped, draw the tool.
             switch (_P.playerTools[_P.playerToolSelected])
