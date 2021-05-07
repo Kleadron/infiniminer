@@ -25,9 +25,7 @@ Simply build the solution and you should be good to go.
 KNOWN ISSUES
 ============
 
-Player models are busted.
-
-Networking is greatly untested and is also probably busted.
+No major ones, but networking might still be busted.
 
 
 PATCHING AND ISSUE TRACKING

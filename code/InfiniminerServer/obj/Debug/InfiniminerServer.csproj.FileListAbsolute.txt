@@ -1,5 +1,0 @@
-C:\GitHub\infiniminer\bin\InfiniminerServer.exe
-C:\GitHub\infiniminer\bin\InfiniminerServer.pdb
-C:\GitHub\infiniminer\code\InfiniminerServer\obj\Debug\InfiniminerServer.exe
-C:\GitHub\infiniminer\code\InfiniminerServer\obj\Debug\InfiniminerServer.pdb
-C:\GitHub\infiniminer\code\InfiniminerServer\obj\Debug\InfiniminerServer.csprojResolveAssemblyReference.cache
