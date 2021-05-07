@@ -327,11 +327,14 @@ namespace Infiniminer
                 }
 
                 graphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise; // CullCounterClockwise because this makes sense
-                graphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
+                if (renderLava)
+                    graphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
+                else
+                    graphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
                 //graphicsDevice.VertexDeclaration = vertexDeclaration;
                 //graphicsDevice.Vertices[0].SetSource(vertexBuffer, 0, VertexPositionTextureShade.SizeInBytes);
                 graphicsDevice.SetVertexBuffer(vertexBuffer);
-                graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, vertexBuffer.VertexCount);
+                graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, vertexBuffer.VertexCount / 3);
                 //graphicsDevice.RenderState.CullMode = CullMode.None;
 
                 if (renderTranslucent)

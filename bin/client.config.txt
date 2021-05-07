@@ -1,5 +1,5 @@
 # This value specifies your name - please change it to something unique!
-handle = Kleadron2
+handle = Kleadron
 
 width = 1024
 height = 768
@@ -9,11 +9,11 @@ fullscreen = false
 # If your performance is bad, try turning this off.
 pretty = true
 
-showfps = true
+showfps = false
 yinvert = false
 
 # This value specifies the override volume multiplier, for people who find the sounds too loud.
-volume = 0.18
+volume = 0.12
 
 #This value specifies the mouse sensitivity, from 1-50 default 5
 sensitivity = 5

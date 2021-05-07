@@ -93,7 +93,7 @@ namespace Infiniminer.States
             if ((_SM as InfiniminerGame).anyPacketsReceived)
                 progressText = String.Format("{0:00}% LOADED", dataPacketsRecieved / 256.0f * 100);
 
-            SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
+            SpriteBatch spriteBatch = _P.spriteBatch;
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             spriteBatch.Draw(texMenu, drawRect, Color.White);
             spriteBatch.DrawString(uiFont, progressText, new Vector2(((int)(_SM.GraphicsDevice.Viewport.Width / 2 - uiFont.MeasureString(progressText).X / 2)), drawRect.Y + 430), Color.White);

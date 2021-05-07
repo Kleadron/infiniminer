@@ -91,6 +91,10 @@ namespace Infiniminer
         public List<ChatMessage> chatFullBuffer = new List<ChatMessage>(); //same as above, holds last several messages
         public string chatEntryBuffer = "";
 
+        // Graphics stuff.
+        public SpriteBatch spriteBatch;
+        public Texture2D shade;
+
         public PropertyBag(InfiniminerGame gameInstance)
         {
             // Initialize our network device.
@@ -134,6 +138,13 @@ namespace Infiniminer
                 soundList[InfiniminerSound.RadarLow] = gameInstance.Content.Load<SoundEffect>("sounds/radar-low");
                 soundList[InfiniminerSound.RadarSwitch] = gameInstance.Content.Load<SoundEffect>("sounds/switch");
             }
+
+            // Create a SINGLE SPRITEBATCH FOR THE FUCKING GOD DAMN STATES AND SHIT
+            spriteBatch = new SpriteBatch(gameInstance.GraphicsDevice);
+
+            //Generate a SINGLE 1px white texture
+            shade = new Texture2D(gameInstance.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            shade.SetData(new Color[] { Color.White });
         }
 
         public PlayerTeam TeamFromBlock(BlockType bt)

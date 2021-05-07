@@ -291,7 +291,7 @@ namespace Infiniminer.States
 
         public override void OnRenderAtUpdate(GraphicsDevice graphicsDevice, GameTime gameTime)
         {
-            SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
+            SpriteBatch spriteBatch = _P.spriteBatch;
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             spriteBatch.Draw(texSettings, drawRect, Color.White);
             spriteBatch.End();

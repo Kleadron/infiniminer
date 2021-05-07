@@ -13,7 +13,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
-    <ApplicationIcon>Server.ico</ApplicationIcon>
+    <ApplicationIcon>ServerNew.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Server.ico" />
+    <Content Include="ServerNew.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

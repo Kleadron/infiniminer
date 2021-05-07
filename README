@@ -24,8 +24,6 @@ Simply build the solution and you should be good to go.
 
 KNOWN ISSUES
 ============
-Polygons in BlockEngine tend to explore the outer reaches of the universe
-and other blocks.
 
 Player models are busted.
 

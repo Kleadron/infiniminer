@@ -116,14 +116,11 @@ namespace InterfaceItems
                 {
                     drawColour = new Color(.5f, .5f, .5f);
                 }
-                //Generate 1px white texture
-                Texture2D shade = new Texture2D(graphicsDevice, 1,1,false,SurfaceFormat.Color);
-                shade.SetData(new Color[] { Color.White });
                 //Draw end boxes
-                SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
+                SpriteBatch spriteBatch = _P.spriteBatch;
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                spriteBatch.Draw(shade, new Rectangle(size.X, size.Y, size.Height, size.Height), drawColour);
-                spriteBatch.Draw(shade, new Rectangle(size.X + size.Width - size.Height, size.Y, size.Height, size.Height), drawColour);
+                spriteBatch.Draw(_P.shade, new Rectangle(size.X, size.Y, size.Height, size.Height), drawColour);
+                spriteBatch.Draw(_P.shade, new Rectangle(size.X + size.Width - size.Height, size.Y, size.Height, size.Height), drawColour);
                 
                 //Draw line
                 float sliderPercent = getPercent();
@@ -131,10 +128,10 @@ namespace InterfaceItems
                 int midHeight = (int)(size.Height/2)-1;
                 int actualWidth = size.Width - 2 * size.Height;
                 int actualPosition = (int)(sliderPercent * actualWidth);
-                spriteBatch.Draw(shade, new Rectangle(size.X, size.Y + midHeight, size.Width, 1), drawColour);
+                spriteBatch.Draw(_P.shade, new Rectangle(size.X, size.Y + midHeight, size.Width, 1), drawColour);
 
                 //Draw slider
-                spriteBatch.Draw(shade, new Rectangle(size.X + size.Height + actualPosition - sliderPartialWidth, size.Y + midHeight - sliderPartialWidth, size.Height / 2, size.Height / 2), drawColour);
+                spriteBatch.Draw(_P.shade, new Rectangle(size.X + size.Height + actualPosition - sliderPartialWidth, size.Y + midHeight - sliderPartialWidth, size.Height / 2, size.Height / 2), drawColour);
                 if (text != "")
                 {
                     //Draw text
@@ -144,7 +141,6 @@ namespace InterfaceItems
                 spriteBatch.DrawString(uiFont, (((float)(int)(value * 10)) / 10).ToString(), new Vector2(size.X, size.Y - 20), drawColour); 
                 
                 spriteBatch.End();
-                shade.Dispose();
             }
         }
     }

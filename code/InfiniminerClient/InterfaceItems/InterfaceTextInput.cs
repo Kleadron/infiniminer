@@ -103,14 +103,10 @@ namespace InterfaceItems
                 else if (!inFocus)
                     drawColour = new Color(.85f, .85f, .85f);
 
-                //Generate 1px white texture
-                Texture2D shade = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
-                shade.SetData(new Color[] { Color.White });
-
                 //Draw base background
-                SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
+                SpriteBatch spriteBatch = _P.spriteBatch;
                 spriteBatch.Begin();
-                spriteBatch.Draw(shade, size, drawColour);
+                spriteBatch.Draw(_P.shade, size, drawColour);
 
                 spriteBatch.DrawString(uiFont, value, new Vector2(size.X + size.Width / 2 - uiFont.MeasureString(value).X / 2, size.Y + size.Height / 2 - 8), Color.Black);
 
@@ -140,7 +136,6 @@ namespace InterfaceItems
                 */
 
                 spriteBatch.End();
-                shade.Dispose();
             }
         }
     }

@@ -36,7 +36,7 @@ namespace InterfaceItems
         {
             if (visible&&text!="")
             {
-                SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
+                SpriteBatch spriteBatch = _P.spriteBatch;
                 spriteBatch.Begin();
 
                 spriteBatch.DrawString(uiFont, text, new Vector2(size.X, size.Y), Color.White);

@@ -188,7 +188,7 @@ namespace Infiniminer
         {
             int screenWidth = graphicsDevice.Viewport.Width;
             int screenHeight = graphicsDevice.Viewport.Height;
-            graphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
+            graphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
 
             Texture2D textureToUse;
             if (Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed)
@@ -203,7 +203,7 @@ namespace Infiniminer
         {
             int screenWidth = graphicsDevice.Viewport.Width;
             int screenHeight = graphicsDevice.Viewport.Height;
-            graphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
+            graphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
 
             int drawX = screenWidth / 2 - 32 * 3;
             int drawY = screenHeight - 102 * 3;
@@ -229,7 +229,7 @@ namespace Infiniminer
         {
             int screenWidth = graphicsDevice.Viewport.Width;
             int screenHeight = graphicsDevice.Viewport.Height;
-            graphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
+            graphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
 
             int drawX = screenWidth / 2 - 60 * 3;
             int drawY = screenHeight - 91 * 3;
@@ -318,7 +318,7 @@ namespace Infiniminer
                 RenderMessageCenter(spriteBatch, String.Format("FPS: {0:000}", gameInstance.FrameRate), new Vector2(60, graphicsDevice.Viewport.Height - 20), Color.Gray, Color.Black);
 
             // Show the altimeter.
-            int altitude = (int)(_P.playerPosition.Y - BlockEngine.MAPSIZE + Defines.GROUND_LEVEL);
+            int altitude = (int)(Math.Floor(_P.playerPosition.Y - BlockEngine.MAPSIZE + Defines.GROUND_LEVEL));
             RenderMessageCenter(spriteBatch, String.Format("ALTITUDE: {0:00}", altitude), new Vector2(graphicsDevice.Viewport.Width - 90, graphicsDevice.Viewport.Height - 20), altitude >= 0 ? Color.Gray : Defines.IM_RED, Color.Black);
 
             // Draw bank instructions.
@@ -420,29 +420,34 @@ namespace Infiniminer
                 RenderMessageCenter(spriteBatch, "PRESS K TO COMMIT PIXELCIDE.", new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2 + 80), Color.White, Color.Black);
             }
 
+            float effectModifier = 1f - ((float)_P.screenEffectCounter * 0.5f);
+
             // Draw the current screen effect.
             if (_P.screenEffect == ScreenEffect.Death)
             {
-                Color drawColor = new Color(1 - (float)_P.screenEffectCounter * 0.5f, 0f, 0f);
+                Color drawColor = new Color(effectModifier, 0f, 0f);
                 spriteBatch.Draw(texBlank, new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height), drawColor);
                 if (_P.screenEffectCounter >= 2)
                     RenderMessageCenter(spriteBatch, "You have died. Click to respawn.", new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2), Color.White, Color.Black);
             }
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive); // Fixes the fading
             if (_P.screenEffect == ScreenEffect.Teleport || _P.screenEffect == ScreenEffect.Explosion)
             {
-                Color drawColor = new Color(1, 1, 1, 1 - (float)_P.screenEffectCounter * 0.5f);
+                Color drawColor = new Color(1, 1, 1, effectModifier);
                 spriteBatch.Draw(texBlank, new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height), drawColor);
                 if (_P.screenEffectCounter > 2)
                     _P.screenEffect = ScreenEffect.None;
             }
             if (_P.screenEffect == ScreenEffect.Fall)
             {
-                Color drawColor = new Color(1, 0, 0, 1 - (float)_P.screenEffectCounter * 0.5f);
+                Color drawColor = new Color(1, 0, 0, effectModifier);
                 spriteBatch.Draw(texBlank, new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height), drawColor);
                 if (_P.screenEffectCounter > 2)
                     _P.screenEffect = ScreenEffect.None;
             }
-
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             // Draw the help screen.
             if (Keyboard.GetState().IsKeyDown(Keys.F1))
             {

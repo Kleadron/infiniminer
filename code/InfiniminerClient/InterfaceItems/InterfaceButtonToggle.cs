@@ -70,15 +70,11 @@ namespace InterfaceItems
                     drawColour = new Color(.7f, .7f, .7f);
                 else if (midClick)
                     drawColour = new Color(.85f, .85f, .85f);
-
-                //Generate 1px white texture
-                Texture2D shade = new Texture2D(graphicsDevice, 1, 1, false, SurfaceFormat.Color);
-                shade.SetData(new Color[] { Color.White });
                 
                 //Draw base button
-                SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
+                SpriteBatch spriteBatch = _P.spriteBatch;
                 spriteBatch.Begin();
-                spriteBatch.Draw(shade, size, drawColour);
+                spriteBatch.Draw(_P.shade, size, drawColour);
 
                 //Draw button text
                 string dispText = offText;
@@ -113,7 +109,6 @@ namespace InterfaceItems
                 */
 
                 spriteBatch.End();
-                shade.Dispose();
             }
         }
     }

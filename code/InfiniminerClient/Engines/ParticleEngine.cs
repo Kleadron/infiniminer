@@ -169,7 +169,7 @@ namespace Infiniminer
                 //graphicsDevice.VertexDeclaration = vertexDeclaration;
                 //graphicsDevice.Vertices[0].SetSource(vertexBuffer, 0, VertexPositionTextureShade.SizeInBytes);
                 graphicsDevice.SetVertexBuffer(vertexBuffer);
-                graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, vertexBuffer.VertexCount);
+                graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, vertexBuffer.VertexCount / 3);
 
                 //particleEffect.Techniques[0].Passes[0].End();
                 //particleEffect.End();  

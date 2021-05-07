@@ -88,7 +88,7 @@ namespace Infiniminer
             SurfaceFormat format = pp.BackBufferFormat;
 
             // Create a texture for reading back the backbuffer contents.
-            resolveTarget = new RenderTarget2D(GraphicsDevice, width, height, false, format, DepthFormat.Depth24Stencil8);
+            resolveTarget = new RenderTarget2D(GraphicsDevice, width, height, false, format, pp.DepthStencilFormat);
 
             // Create two rendertargets for the bloom processing. These are half the
             // size of the backbuffer, in order to minimize fillrate costs. Reducing
@@ -215,6 +215,8 @@ namespace Infiniminer
                 effect.CurrentTechnique.Passes[0].Apply();
             }
 
+            // Changing this to 1 fixed the reach complaint about clamping the texture. The wonders of XNA.
+            GraphicsDevice.SamplerStates[1] = SamplerState.PointClamp;
             // Draw the quad.
             spriteBatch.Draw(texture, new Rectangle(0, 0, width, height), Color.White);
             spriteBatch.End();

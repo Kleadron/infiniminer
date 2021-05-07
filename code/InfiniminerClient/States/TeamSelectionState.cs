@@ -80,7 +80,7 @@ namespace Infiniminer.States
                     blueTeamCount += 1;
             }
 
-            SpriteBatch spriteBatch = new SpriteBatch(graphicsDevice);
+            SpriteBatch spriteBatch = _P.spriteBatch;
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             spriteBatch.Draw(texMenu, drawRect, Color.White);
             QuickDrawText(spriteBatch, "" + redTeamCount + " PLAYERS", 360, _P.red);//Defines.IM_RED);
