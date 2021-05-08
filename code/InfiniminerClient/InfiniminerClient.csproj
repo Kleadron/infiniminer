@@ -70,10 +70,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lidgren.Network.dll</HintPath>
     </Reference>
-    <Reference Include="Lidgren.Network.Xna, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lidgren.Network.Xna.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553">
       <Private>False</Private>
     </Reference>

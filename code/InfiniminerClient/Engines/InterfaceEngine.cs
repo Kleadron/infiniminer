@@ -5,11 +5,11 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
+
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Net;
+
 using Microsoft.Xna.Framework.Storage;
 
 namespace Infiniminer
@@ -433,7 +433,7 @@ namespace Infiniminer
                     RenderMessageCenter(spriteBatch, "You have died. Click to respawn.", new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2), Color.White, Color.Black);
             }
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive); // Fixes the fading
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied); // Fixes the fading
             if (_P.screenEffect == ScreenEffect.Teleport || _P.screenEffect == ScreenEffect.Explosion)
             {
                 Color drawColor = new Color(1, 1, 1, effectModifier);

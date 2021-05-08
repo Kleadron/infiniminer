@@ -7,12 +7,13 @@ using StateMasher;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
+
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Net;
+
 using Microsoft.Xna.Framework.Storage;
+using System.IO;
 
 namespace Infiniminer.States
 {
@@ -50,7 +51,44 @@ namespace Infiniminer.States
             uiFont = _SM.Content.Load<SpriteFont>("font_04b08");
             //keyMap = new KeyMap();
             
-            serverList = (_SM as InfiniminerGame).EnumerateServers(0.5f);
+            if (!LoadAutoServerFile())
+                serverList = (_SM as InfiniminerGame).EnumerateServers(0.5f);
+        }
+
+        bool LoadAutoServerFile()
+        {
+            // Try what was entered first as an IP, and then second as a host name.
+            if (!File.Exists("autoserver.txt")) {
+                return false;
+            }
+            directConnectIP = File.ReadAllText("autoserver.txt").Trim();
+            IPAddress connectIp = null;
+            if (!IPAddress.TryParse(directConnectIP, out connectIp))
+            {
+                connectIp = null;
+                try
+                {
+                    IPAddress[] resolveResults = Dns.GetHostAddresses(directConnectIP);
+                    for (int i = 0; i < resolveResults.Length; i++)
+                        if (resolveResults[i].AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        {
+                            connectIp = resolveResults[i];
+                            break;
+                        }
+                }
+                catch (Exception)
+                {
+                    // So, GetHostAddresses() might fail, but we don't really care. Just leave connectIp as null.
+                }
+            }
+            if (connectIp != null)
+            {
+                (_SM as InfiniminerGame).propertyBag.serverName = directConnectIP;
+                (_SM as InfiniminerGame).JoinGame(new IPEndPoint(connectIp, 5565));
+                nextState = "Infiniminer.States.LoadingState";
+            }
+            directConnectIP = "";
+            return true;
         }
 
         public override void OnLeave(string newState)

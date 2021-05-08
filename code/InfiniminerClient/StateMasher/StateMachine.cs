@@ -6,11 +6,11 @@ using Infiniminer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
+
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Net;
+
 using Microsoft.Xna.Framework.Storage;
 
 namespace StateMasher
@@ -47,15 +47,21 @@ namespace StateMasher
 
         public ContentManager ScratchContent;
 
+        KeyboardState kbStateOld;
+
         public StateMachine()
         {
             Content.RootDirectory = "Content";
             ScratchContent = new ContentManager(Services, "Content"); // for big things to be unloaded
             graphicsDeviceManager = new GraphicsDeviceManager(this);
+#if FNA
+
+#else
             EventInput.EventInput.Initialize(this.Window);
             EventInput.EventInput.CharEntered += new EventInput.CharEnteredHandler(EventInput_CharEntered);
             EventInput.EventInput.KeyDown += new EventInput.KeyEventHandler(EventInput_KeyDown);
             EventInput.EventInput.KeyUp += new EventInput.KeyEventHandler(EventInput_KeyUp);
+#endif
         }
 
         protected void ChangeState(string newState)
@@ -79,7 +85,11 @@ namespace StateMasher
 
         public bool WindowHasFocus()
         {
+#if FNA
+            return IsActive;
+#else
             return GetForegroundWindow() == (int)Window.Handle;
+#endif
         }
 
         protected override void Initialize()
@@ -119,6 +129,23 @@ namespace StateMasher
         {
             if (frameCount > 0)
                 frameRate = frameCount / gameTime.TotalGameTime.TotalSeconds;
+
+#if FNA
+            KeyboardState kbState = Keyboard.GetState();
+            for (int i = 0; i <= 255; i++)
+            {
+                Keys key = (Keys)i;
+                if (kbState.IsKeyDown(key) && kbStateOld.IsKeyUp(key))
+                {
+                    EventInput_KeyDown(null, new EventInput.KeyEventArgs(key));
+                }
+                else if (kbState.IsKeyUp(key) && kbStateOld.IsKeyDown(key))
+                {
+                    EventInput_KeyUp(null, new EventInput.KeyEventArgs(key));
+                }
+            }
+            kbStateOld = kbState;
+#endif
 
             if (currentState != null && propertyBag != null)
             {
