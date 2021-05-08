@@ -184,16 +184,16 @@ namespace Infiniminer
             else if (dotProduct < -0.747f)
                 spriteRow = 2;
             else if (crossProduct.Y < 0)
-                spriteRow = 1;
-            else
                 spriteRow = 3;
+            else
+                spriteRow = 1;
 
             float texX = currentColumn * frameWidth - frameWidth / 24;
             float texY = spriteRow * frameHeight + frameHeight / 32;
-            VertexPositionTexture v1 = new VertexPositionTexture(new Vector3(-0.375f * drawScale, 1 * drawScale, 0), new Vector2(texX, texY));
-            VertexPositionTexture v2 = new VertexPositionTexture(new Vector3(0.375f * drawScale, 1 * drawScale, 0), new Vector2(texX + frameWidth, texY));
-            VertexPositionTexture v3 = new VertexPositionTexture(new Vector3(-0.375f * drawScale, 0, 0), new Vector2(texX, texY + frameHeight));
-            VertexPositionTexture v4 = new VertexPositionTexture(new Vector3(0.375f * drawScale, 0, 0), new Vector2(texX + frameWidth, texY + frameHeight));
+            VertexPositionTexture v1 = new VertexPositionTexture(new Vector3(-0.375f * drawScale, 1 * drawScale, 0), new Vector2(texX + frameWidth, texY));
+            VertexPositionTexture v2 = new VertexPositionTexture(new Vector3(0.375f * drawScale, 1 * drawScale, 0), new Vector2(texX, texY));
+            VertexPositionTexture v3 = new VertexPositionTexture(new Vector3(-0.375f * drawScale, 0, 0), new Vector2(texX + frameWidth, texY + frameHeight));
+            VertexPositionTexture v4 = new VertexPositionTexture(new Vector3(0.375f * drawScale, 0, 0), new Vector2(texX, texY + frameHeight));
 
             vertices[0] = v3;
             vertices[1] = v2;
