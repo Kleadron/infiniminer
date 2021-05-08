@@ -138,6 +138,9 @@ namespace StateMasher
                 if (kbState.IsKeyDown(key) && kbStateOld.IsKeyUp(key))
                 {
                     EventInput_KeyDown(null, new EventInput.KeyEventArgs(key));
+                    
+                    // this is not how it should be done but I don't care right now
+                    EventInput_CharEntered(null, new EventInput.CharacterEventArgs((char)i, 0));
                 }
                 else if (kbState.IsKeyUp(key) && kbStateOld.IsKeyDown(key))
                 {

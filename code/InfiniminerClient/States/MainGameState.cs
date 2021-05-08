@@ -305,7 +305,7 @@ namespace Infiniminer.States
             _P.playerEngine.RenderPlayerNames(graphicsDevice);
             _P.interfaceEngine.Render(graphicsDevice);
 
-            _SM.Window.Title = "Infiniminer";
+            //_SM.Window.Title = "Infiniminer";
         }
 
         DateTime startChat = DateTime.Now;
