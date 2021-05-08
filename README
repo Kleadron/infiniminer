@@ -21,6 +21,9 @@ BUILDING
 XNA
 Building Infiniminer requires Visual Studio 2010 and XNA Game Studio 4.0. 
 
+This outputs a working game build to the bin folder at the root of the 
+file structure. Refer to the buildstuff folder.
+
 You'll also need the fonts 04b03b and 04b08 from the following site:
 
 http://www.dsg4.com/04/extra/bitmap/
@@ -33,6 +36,9 @@ Visual Studio 2010 and probably any newer version.
 
 Just open the InfiniminerFNA.sln in your version of choice, convert it
 if it asks, and build. <--- UNTESTED
+
+This outputs a working game build to the bin-fna folder at the root of the 
+file structure. Refer to the buildstuff folder.
 
 If you do this however, you need built content from the XNA version to 
 put into a Content folder where the game build is. 
