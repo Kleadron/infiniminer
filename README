@@ -18,6 +18,7 @@ removing stuff.
 BUILDING
 ========
 
+XNA
 Building Infiniminer requires Visual Studio 2010 and XNA Game Studio 4.0. 
 
 You'll also need the fonts 04b03b and 04b08 from the following site:
@@ -25,6 +26,19 @@ You'll also need the fonts 04b03b and 04b08 from the following site:
 http://www.dsg4.com/04/extra/bitmap/
 
 Simply build the solution and you should be good to go.
+
+FNA
+Alternatively, if you use the FNA version you can use a minimum of
+Visual Studio 2010 and probably any newer version. 
+
+Just open the InfiniminerFNA.sln in your version of choice, convert it
+if it asks, and build. <--- UNTESTED
+
+If you do this however, you need built content from the XNA version to 
+put into a Content folder where the game build is. 
+
+You also must follow the FNA wiki on how to build a game, and use the
+libs from the buildstuff folder; https://github.com/FNA-XNA/FNA/wiki
 
 
 KNOWN ISSUES
