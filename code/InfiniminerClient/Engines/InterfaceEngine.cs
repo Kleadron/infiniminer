@@ -95,8 +95,12 @@ namespace Infiniminer
         public void RenderMessageCenter(SpriteBatch spriteBatch, string text, Vector2 pointCenter, Color colorText, Color colorBackground)
         {
             Vector2 textSize = uiFont.MeasureString(text);
+            Vector2 textPos = pointCenter - textSize / 2;
+            // make it not blurry
+            textPos.X = (int)textPos.X;
+            textPos.Y = (int)textPos.Y;
             spriteBatch.Draw(texBlank, new Rectangle((int)(pointCenter.X - textSize.X / 2 - 10), (int)(pointCenter.Y - textSize.Y / 2 - 10), (int)(textSize.X + 20), (int)(textSize.Y + 20)), colorBackground);
-            spriteBatch.DrawString(uiFont, text, pointCenter - textSize / 2, colorText);
+            spriteBatch.DrawString(uiFont, text, textPos, colorText);
         }
 
         private static bool MessageExpired(ChatMessage msg)

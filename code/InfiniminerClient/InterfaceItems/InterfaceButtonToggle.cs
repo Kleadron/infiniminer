@@ -81,7 +81,7 @@ namespace InterfaceItems
                 if (clicked)
                     dispText = onText;
 
-                spriteBatch.DrawString(uiFont, dispText, new Vector2(size.X + size.Width / 2 - uiFont.MeasureString(dispText).X / 2, size.Y + size.Height / 2 - 8), Color.Black);
+                spriteBatch.DrawString(uiFont, dispText, new Vector2(size.X + size.Width / 2 - (int)uiFont.MeasureString(dispText).X / 2, size.Y + size.Height / 2 - 8), Color.Black);
 
                 if (text != "")
                 {

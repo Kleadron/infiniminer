@@ -21,6 +21,7 @@ namespace Infiniminer.States
         Texture2D texMenuRed, texMenuBlue;
         Rectangle drawRect;
         string nextState = null;
+        bool canCancel = false;
 
         ClickRegion[] clkClassMenu = new ClickRegion[4] {
 	        new ClickRegion(new Rectangle(54,168,142,190), "miner"), 
@@ -42,6 +43,8 @@ namespace Infiniminer.States
                                      1024,
                                      768);
 
+            if (oldState == "Infiniminer.States.MainGameState")
+                canCancel = true;
             //_P.KillPlayer("");
         }
 
@@ -80,7 +83,8 @@ namespace Infiniminer.States
 
         public override void OnKeyDown(Keys key)
         {
-
+            if (key == Keys.Escape && canCancel)
+                nextState = "Infiniminer.States.MainGameState";
         }
 
         public override void OnKeyUp(Keys key)

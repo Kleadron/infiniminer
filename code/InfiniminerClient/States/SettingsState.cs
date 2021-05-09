@@ -234,9 +234,21 @@ namespace Infiniminer.States
                 {
                     case "Username": dw.Data["handle"] = (element as InterfaceTextInput).value;
                         break;
-                    case "Scrn  Width": dw.Data["width"] = (element as InterfaceTextInput).value;
+                    case "Scrn  Width": //dw.Data["width"] = (element as InterfaceTextInput).value;
+                        int resolve = 0;
+                        if (int.TryParse((element as InterfaceTextInput).value, out resolve))
+                        {
+                            if (resolve >= 1024)
+                                dw.Data["width"] = (element as InterfaceTextInput).value;
+                        }
                         break;
-                    case "Scrn Height": dw.Data["height"] = (element as InterfaceTextInput).value;
+                    case "Scrn Height": //dw.Data["height"] = (element as InterfaceTextInput).value;
+                        int resolve2 = 0;
+                        if (int.TryParse((element as InterfaceTextInput).value, out resolve2))
+                        {
+                            if (resolve2 >= 768)
+                                dw.Data["height"] = (element as InterfaceTextInput).value;
+                        }
                         break;
                     case "Screen Mode": dw.Data["fullscreen"] = (element as InterfaceButtonToggle).clicked.ToString().ToLower();
                         break;

@@ -69,7 +69,8 @@ namespace InterfaceItems
 
             if (inFocus)
             {
-                value += e.Character;
+                if (value.Length < 16)
+                    value += e.Character;
             }
         }
 
@@ -108,7 +109,7 @@ namespace InterfaceItems
                 spriteBatch.Begin();
                 spriteBatch.Draw(_P.shade, size, drawColour);
 
-                spriteBatch.DrawString(uiFont, value, new Vector2(size.X + size.Width / 2 - uiFont.MeasureString(value).X / 2, size.Y + size.Height / 2 - 8), Color.Black);
+                spriteBatch.DrawString(uiFont, value, new Vector2(size.X + size.Width / 2 - (int)uiFont.MeasureString(value).X / 2, size.Y + size.Height / 2 - 8), Color.Black);
 
                 if (text != "")
                 {

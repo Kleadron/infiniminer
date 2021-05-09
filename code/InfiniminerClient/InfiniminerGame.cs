@@ -485,26 +485,17 @@ namespace Infiniminer
 
             //Now moving to DatafileWriter only since it can read and write
             DatafileWriter dataFile = new DatafileWriter("client.config.txt");
-            if (dataFile.Data.ContainsKey("width"))
-                graphicsDeviceManager.PreferredBackBufferWidth = int.Parse(dataFile.Data["width"], System.Globalization.CultureInfo.InvariantCulture);
-            if (dataFile.Data.ContainsKey("height"))
-                graphicsDeviceManager.PreferredBackBufferHeight = int.Parse(dataFile.Data["height"], System.Globalization.CultureInfo.InvariantCulture);
-            if (dataFile.Data.ContainsKey("fullscreen"))
-                graphicsDeviceManager.IsFullScreen = bool.Parse(dataFile.Data["fullscreen"]);
+            graphicsDeviceManager.PreferredBackBufferWidth = dataFile.AsInt("width", 1024);
+            graphicsDeviceManager.PreferredBackBufferHeight = dataFile.AsInt("height", 768);
+            graphicsDeviceManager.IsFullScreen = dataFile.AsBool("fullscreen", false);
             if (dataFile.Data.ContainsKey("handle"))
-                playerHandle = dataFile.Data["handle"];
-            if (dataFile.Data.ContainsKey("showfps"))
-                DrawFrameRate = bool.Parse(dataFile.Data["showfps"]);
-            if (dataFile.Data.ContainsKey("yinvert"))
-                InvertMouseYAxis = bool.Parse(dataFile.Data["yinvert"]);
-            if (dataFile.Data.ContainsKey("nosound"))
-                NoSound = bool.Parse(dataFile.Data["nosound"]);
-            if (dataFile.Data.ContainsKey("pretty"))
-                RenderPretty = bool.Parse(dataFile.Data["pretty"]);
-            if (dataFile.Data.ContainsKey("volume"))
-                volumeLevel = Math.Max(0,Math.Min(1,float.Parse(dataFile.Data["volume"], System.Globalization.CultureInfo.InvariantCulture)));
-            if (dataFile.Data.ContainsKey("sensitivity"))
-                mouseSensitivity=Math.Max(0.001f,Math.Min(0.05f,float.Parse(dataFile.Data["sensitivity"], System.Globalization.CultureInfo.InvariantCulture)/1000f));
+                playerHandle = dataFile.Data["handle"].Trim();
+            DrawFrameRate = dataFile.AsBool("showfps", true);
+            InvertMouseYAxis = dataFile.AsBool("yinvert", false);
+            NoSound = dataFile.AsBool("nosound", false);
+            RenderPretty = dataFile.AsBool("pretty", true);
+            volumeLevel = Math.Max(0,Math.Min(1,dataFile.AsFloat("volume", 0.5f)));
+            mouseSensitivity=Math.Max(0.001f,Math.Min(0.05f,dataFile.AsFloat("sensitivity", 5f)/1000f));
             if (dataFile.Data.ContainsKey("red_name"))
                 redName = dataFile.Data["red_name"].Trim();
             if (dataFile.Data.ContainsKey("blue_name"))

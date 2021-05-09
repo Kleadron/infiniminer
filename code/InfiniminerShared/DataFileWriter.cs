@@ -76,17 +76,17 @@ namespace Infiniminer
                         seen[args[0].Trim()] = true;
                         if (Data.ContainsKey(args[0].Trim()) && Data[args[0].Trim()] != args[1]) //Maybe we need to replace?
                         {
-                            contentToWrite += args[0].Trim() + " = " + Data[args[0].Trim()] + "\n";
+                            contentToWrite += args[0].Trim() + " = " + Data[args[0].Trim()] + "\r\n";
                             changes = true;
                         }
                         else
                         {
                             Data[args[0].Trim()] = args[1].Trim();
-                            contentToWrite += line + "\n";
+                            contentToWrite += line + "\r\n";
                         }
                     }
                     else
-                        contentToWrite += line + "\n";
+                        contentToWrite += line + "\r\n";
                     line = sr.ReadLine();
                 }
 
@@ -98,7 +98,7 @@ namespace Infiniminer
                 {
                     if (!seen.ContainsKey(dataI.Key))
                     {
-                        contentToWrite += dataI.Key + " = " + dataI.Value + "\n";
+                        contentToWrite += dataI.Key + " = " + dataI.Value + "\r\n";
                         changes = true;
                     }
                 }
@@ -120,6 +120,41 @@ namespace Infiniminer
                 Console.Out.Close();
             }
             return 0;
+        }
+
+        public string AsString(string key, string failsafe)
+        {
+            string keyInt = failsafe;
+            if (Data.ContainsKey(key))
+                keyInt = Data[key];
+            return keyInt;
+        }
+
+        public int AsInt(string key, int failsafe)
+        {
+            int keyInt;
+            if (Data.ContainsKey(key))
+                if (int.TryParse(Data[key], out keyInt))
+                    return keyInt;
+            return failsafe;
+        }
+
+        public float AsFloat(string key, float failsafe)
+        {
+            float keyInt;
+            if (Data.ContainsKey(key))
+                if (float.TryParse(Data[key], out keyInt))
+                    return keyInt;
+            return failsafe;
+        }
+
+        public bool AsBool(string key, bool failsafe)
+        {
+            bool keyInt;
+            if (Data.ContainsKey(key))
+                if (bool.TryParse(Data[key], out keyInt))
+                    return keyInt;
+            return failsafe;
         }
 
     }

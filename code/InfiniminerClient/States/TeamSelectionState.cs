@@ -66,7 +66,7 @@ namespace Infiniminer.States
 
         public void QuickDrawText(SpriteBatch spriteBatch, string text, int y, Color color)
         {
-            spriteBatch.DrawString(uiFont, text, new Vector2(_SM.GraphicsDevice.Viewport.Width / 2 - uiFont.MeasureString(text).X / 2, drawRect.Y + y), color);
+            spriteBatch.DrawString(uiFont, text, new Vector2(_SM.GraphicsDevice.Viewport.Width / 2 - (int)uiFont.MeasureString(text).X / 2, drawRect.Y + y), color);
         }
 
         public override void OnRenderAtUpdate(GraphicsDevice graphicsDevice, GameTime gameTime)
