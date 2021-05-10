@@ -40,7 +40,9 @@ namespace Infiniminer
                 }
 
                 sr.Close();
+                sr.Dispose();
                 file.Close();
+                file.Dispose();
             }
             catch (Exception e)
             {
@@ -91,7 +93,9 @@ namespace Infiniminer
                 }
 
                 sr.Close();
+                sr.Dispose();
                 file.Close();
+                file.Dispose();
 
                 //Check for values we never saw in the settings file
                 foreach (KeyValuePair<string, string> dataI in Data)
@@ -109,7 +113,9 @@ namespace Infiniminer
                     StreamWriter sw = new StreamWriter(file);
                     sw.Write(contentToWrite);
                     sw.Close();
+                    sw.Dispose();
                     file.Close();
+                    file.Dispose();
                     return 2;
                 }
                 return 1;

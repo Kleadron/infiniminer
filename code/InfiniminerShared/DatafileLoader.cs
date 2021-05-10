@@ -36,7 +36,9 @@ namespace Infiniminer
                 }
 
                 sr.Close();
+                sr.Dispose();
                 file.Close();
+                file.Dispose();
             }
             catch { }
         }
