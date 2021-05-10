@@ -114,7 +114,7 @@ namespace Infiniminer
             {
                 p.Position += (float)gameTime.ElapsedGameTime.TotalSeconds * p.Velocity;
                 p.Velocity.Y -= 8 * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (_P.blockEngine.SolidAtPoint(p.Position))
+                if (_P.blockEngine.SolidAtPoint(p.Position) || p.Position.Y < -100)
                     p.FlaggedForDeletion = true;
             }
             particleList.RemoveAll(ParticleExpired);

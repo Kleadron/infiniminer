@@ -429,6 +429,7 @@ namespace Infiniminer
                 return;
 
             this.playerTeam = playerTeam;
+            equipWeps(); // make sure that the player doesn't end up with the enemy's blocks
 
             NetOutgoingMessage msgBuffer = netClient.CreateMessage();
             msgBuffer.Write((byte)InfiniminerMessage.PlayerSetTeam);
@@ -450,7 +451,7 @@ namespace Infiniminer
                 PlayerTools.ProspectingRadar,
                 PlayerTools.Detonator };
 
-                playerBlocks = new BlockType[12] {   playerTeam == PlayerTeam.Red ? BlockType.SolidRed : BlockType.SolidBlue,
+                playerBlocks = new BlockType[13] {   playerTeam == PlayerTeam.Red ? BlockType.SolidRed : BlockType.SolidBlue,
                                              playerTeam == PlayerTeam.Red ? BlockType.TransRed : BlockType.TransBlue,
                                              BlockType.Road,
                                              BlockType.Ladder,
@@ -461,7 +462,8 @@ namespace Infiniminer
                                              BlockType.Explosive,
                                              BlockType.Road,
                                              BlockType.Lava,
-                                             BlockType.Dirt };
+                                             BlockType.Dirt,
+                                             BlockType.Rock };
             }
             else
             {

@@ -11,6 +11,7 @@ namespace Infiniminer
         [STAThread]
         static void Main(string[] args)
         {
+            //InfiniminerMessageBox.Show("Test :)");
             if (Debugger.IsAttached)
             {
                 using (InfiniminerGame game = new InfiniminerGame(args))
@@ -28,7 +29,8 @@ namespace Infiniminer
                     }
                     catch (Exception e)
                     {
-                        System.Windows.Forms.MessageBox.Show(e.Message + "\r\n\r\n" + e.StackTrace);
+                        //System.Windows.Forms.MessageBox.Show(e.Message + "\r\n\r\n" + e.StackTrace);
+                        InfiniminerMessageBox.Show(e.Message + "\r\n\r\n" + e.StackTrace);
                     }
                 }
             }

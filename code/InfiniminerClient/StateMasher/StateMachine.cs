@@ -54,7 +54,7 @@ namespace StateMasher
             Content.RootDirectory = "Content";
             ScratchContent = new ContentManager(Services, "Content"); // for big things to be unloaded
             graphicsDeviceManager = new GraphicsDeviceManager(this);
-#if FNA
+#if SDL2
 
 #else
             EventInput.EventInput.Initialize(this.Window);
@@ -85,7 +85,7 @@ namespace StateMasher
 
         public bool WindowHasFocus()
         {
-#if FNA
+#if SDL2
             return IsActive;
 #else
             return GetForegroundWindow() == (int)Window.Handle;
@@ -130,7 +130,7 @@ namespace StateMasher
             if (frameCount > 0)
                 frameRate = frameCount / gameTime.TotalGameTime.TotalSeconds;
 
-#if FNA
+#if SDL2
             KeyboardState kbState = Keyboard.GetState();
             for (int i = 0; i <= 255; i++)
             {

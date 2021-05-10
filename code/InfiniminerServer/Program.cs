@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Infiniminer;
 
 namespace Infiniminer.Server
 {
@@ -30,7 +31,8 @@ namespace Infiniminer.Server
                 }
                 catch (Exception e)
                 {
-                    System.Windows.Forms.MessageBox.Show(e.Message + "\r\n\r\n" + e.StackTrace);
+                    //System.Windows.Forms.MessageBox.Show(e.Message + "\r\n\r\n" + e.StackTrace);
+                    InfiniminerMessageBox.Show(e.Message + "\r\n\r\n" + e.StackTrace);
                 }
             }
         }

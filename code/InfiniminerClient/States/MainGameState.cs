@@ -496,6 +496,7 @@ namespace Infiniminer.States
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.LeftControl) || Keyboard.GetState().IsKeyDown(Keys.RightControl))
                 {
+#if !SDL2
                     if (key == Keys.V)
                     {
                         _P.chatEntryBuffer += System.Windows.Forms.Clipboard.GetText();
@@ -512,6 +513,7 @@ namespace Infiniminer.States
                         _P.chatEntryBuffer = "";
                         return;
                     }
+#endif
                 }
                 // Put the characters in the chat buffer.
                 if (key == Keys.Enter)

@@ -1815,6 +1815,7 @@ namespace Infiniminer
                 if (mapUpdateTimeSpan.TotalMinutes > 5)
                 {
                     SaveLevel("autoBK.lvl");
+                    lastMapBackup = DateTime.Now;
                 }
 
                 // Time to send a new server update?

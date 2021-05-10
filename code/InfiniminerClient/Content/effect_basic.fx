@@ -87,9 +87,9 @@ PixelToFrame LavaBlockPS(VertexToPixel PSIn)
 {
 	PixelToFrame Output = (PixelToFrame)0;		
 	
-	float3 texColor = tex2D(TextureSampler, PSIn.TextureCoords);
+	float4 texColor = tex2D(TextureSampler, PSIn.TextureCoords);
 	Output.Color.rgb = lerp(texColor, xLODColor, PSIn.SpecialInfo.y) * 1.2;
-	Output.Color.a = 1;
+	Output.Color.a = texColor.a; // Preserve alpha
 	
 	return Output;
 }

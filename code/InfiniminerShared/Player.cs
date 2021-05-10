@@ -223,6 +223,9 @@ namespace Infiniminer
             /*if (team == PlayerTeam.Red&&(!AltColours||redTeam==Defines.IM_RED))
                 textureName += "red_";
             else*/
+            if (team == PlayerTeam.Red)
+                textureName += "red_";
+            else
                 textureName += "blue_";
             switch (tool)
             {
@@ -244,7 +247,7 @@ namespace Infiniminer
                     break;
             }
             Texture2D orig = gameInstance.Content.Load<Texture2D>(textureName);
-            if (AltColours)// && ((team == PlayerTeam.Blue && blueTeam != Defines.IM_BLUE) || (team == PlayerTeam.Red && redTeam != Defines.IM_RED)))
+            if (AltColours && false)// && ((team == PlayerTeam.Blue && blueTeam != Defines.IM_BLUE) || (team == PlayerTeam.Red && redTeam != Defines.IM_RED)))
             {
                 Color[] data = new Color[orig.Width * orig.Height];
                 orig.GetData<Color>(data);

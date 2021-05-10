@@ -152,9 +152,9 @@ namespace Infiniminer
                                 {
                                     string[] reason = msgBuffer.ReadString().Split(";".ToCharArray());
                                     if (reason.Length < 2 || reason[0] == "VER")
-                                        System.Windows.Forms.MessageBox.Show("Error: client/server version incompability!\r\nServer: " + msgBuffer.ReadString() + "\r\nClient: " + Defines.INFINIMINER_VERSION);
+                                        InfiniminerMessageBox.Show("Error: client/server version incompability!\r\nServer: " + msgBuffer.ReadString() + "\r\nClient: " + Defines.INFINIMINER_VERSION);
                                     else
-                                        System.Windows.Forms.MessageBox.Show("Error: you are banned from this server!");
+                                        InfiniminerMessageBox.Show("Error: you are banned from this server!");
                                 }
                                 catch { }
                                 ChangeState("Infiniminer.States.ServerBrowserState");

@@ -160,9 +160,9 @@ namespace Infiniminer
                     texRadarSprite = texRadarPlayerAbove;
                 else if (relativeAltitude < -2)
                     texRadarSprite = texRadarPlayerBelow;
-                spriteBatch.Draw(texRadarSprite, new Vector2(10 + 99 + relativePosition.X - texRadarSprite.Width / 2, 30 + 99 + relativePosition.Z - texRadarSprite.Height / 2), color);
+                spriteBatch.Draw(texRadarSprite, new Vector2((int)(10 + 99 + relativePosition.X - texRadarSprite.Width / 2), (int)(30 + 99 + relativePosition.Z - texRadarSprite.Height / 2)), color);
                 if (ping)
-                    spriteBatch.Draw(texRadarPlayerPing, new Vector2(10 + 99 + relativePosition.X - texRadarPlayerPing.Width / 2, 30 + 99 + relativePosition.Z - texRadarPlayerPing.Height / 2), color);
+                    spriteBatch.Draw(texRadarPlayerPing, new Vector2((int)(10 + 99 + relativePosition.X - texRadarPlayerPing.Width / 2), (int)(30 + 99 + relativePosition.Z - texRadarPlayerPing.Height / 2)), color);
             }
 
             // Render text.
@@ -174,7 +174,7 @@ namespace Infiniminer
 
                 if (text == "NORTH")
                 {
-                    spriteBatch.Draw(texRadarNorth, new Vector2(10 + 99 + relativePosition.X - texRadarNorth.Width / 2, 30 + 99 + relativePosition.Z - texRadarNorth.Height / 2), color);
+                    spriteBatch.Draw(texRadarNorth, new Vector2((int)(10 + 99 + relativePosition.X - texRadarNorth.Width / 2), (int)(30 + 99 + relativePosition.Z - texRadarNorth.Height / 2)), color);
                 }
                 else
                 {
@@ -183,7 +183,7 @@ namespace Infiniminer
                     else if (relativeAltitude < -2)
                         text += " v";
                     Vector2 textSize = radarFont.MeasureString(text);
-                    spriteBatch.DrawString(radarFont, text, new Vector2(10 + 99 + relativePosition.X - textSize.X / 2, 30 + 99 + relativePosition.Z - textSize.Y / 2), color);
+                    spriteBatch.DrawString(radarFont, text, new Vector2((int)(10 + 99 + relativePosition.X - textSize.X / 2), (int)(30 + 99 + relativePosition.Z - textSize.Y / 2)), color);
                 }
             }
         }
@@ -246,7 +246,14 @@ namespace Infiniminer
             else if (_P.constructionGunAnimation > 0.001)
                 gunSprite = texToolBuildSmoke;
             spriteBatch.Draw(gunSprite, new Rectangle(drawX, drawY, 120 * 3, 126 * 3), Color.White);
-            spriteBatch.Draw(blockIcons[blockType], new Rectangle(drawX + 37 * 3, drawY + 50 * 3, 117, 63), Color.White);
+            if (blockIcons.ContainsKey(blockType))
+            {
+                spriteBatch.Draw(blockIcons[blockType], new Rectangle(drawX + 37 * 3, drawY + 50 * 3, 117, 63), Color.White);
+            }
+            else
+            {
+                spriteBatch.DrawString(radarFont, blockType.ToString(), new Vector2(drawX + 37 * 3, drawY + 50 * 3), Color.White);
+            }
         }
 
         public void drawChat(List<ChatMessage>messages, GraphicsDevice graphicsDevice)
@@ -345,6 +352,18 @@ namespace Infiniminer
             spriteBatch.DrawString(uiFont, _P.redName + ": $" + _P.teamRedCash, new Vector2(textStart + 700, 2), _P.red);// Defines.IM_RED);
             spriteBatch.DrawString(uiFont, _P.blueName + ": $" + _P.teamBlueCash, new Vector2(textStart + 860, 2), _P.blue);// Defines.IM_BLUE);
 
+            // Draw the player radar.
+            spriteBatch.Draw(texRadarBackground, new Vector2(10, 30), Color.White);
+            foreach (Player p in _P.playerList.Values)
+                if (p.Team == _P.playerTeam && p.Alive)
+                    RenderRadarBlip(spriteBatch, p.ID == _P.playerMyId ? _P.playerPosition : p.Position, p.Team == PlayerTeam.Red ? _P.red : _P.blue, p.Ping > 0, ""); //Defines.IM_RED : Defines.IM_BLUE, p.Ping > 0, "");
+            foreach (KeyValuePair<Vector3, Beacon> bPair in _P.beaconList)
+                if (bPair.Value.Team == _P.playerTeam)
+                    RenderRadarBlip(spriteBatch, bPair.Key, Color.White, false, bPair.Value.ID);
+            RenderRadarBlip(spriteBatch, new Vector3(100000, 0, 32), Color.White, false, "NORTH");
+
+            spriteBatch.Draw(texRadarForeground, new Vector2(10, 30), Color.White);
+
             // Draw player information.
             if ((Keyboard.GetState().IsKeyDown(Keys.Tab) && _P.screenEffect == ScreenEffect.None) || _P.teamWinners != PlayerTeam.None)
             {
@@ -406,18 +425,6 @@ namespace Infiniminer
             {
                 drawChat(_P.chatBuffer,graphicsDevice);
             }
-
-            // Draw the player radar.
-            spriteBatch.Draw(texRadarBackground, new Vector2(10, 30), Color.White);
-            foreach (Player p in _P.playerList.Values)
-                if (p.Team == _P.playerTeam && p.Alive)
-                    RenderRadarBlip(spriteBatch, p.ID == _P.playerMyId ? _P.playerPosition : p.Position, p.Team == PlayerTeam.Red ? _P.red : _P.blue, p.Ping > 0, ""); //Defines.IM_RED : Defines.IM_BLUE, p.Ping > 0, "");
-            foreach (KeyValuePair<Vector3, Beacon> bPair in _P.beaconList)
-                if (bPair.Value.Team == _P.playerTeam)
-                    RenderRadarBlip(spriteBatch, bPair.Key, Color.White, false, bPair.Value.ID);
-            RenderRadarBlip(spriteBatch, new Vector3(100000, 0, 32), Color.White, false, "NORTH");
-
-            spriteBatch.Draw(texRadarForeground, new Vector2(10, 30), Color.White);
 
             // Draw escape message.
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
