@@ -23,7 +23,7 @@ namespace Infiniminer
                 new IntPtr() // hopefully this doesn't break everything
             );
 #else
-            System.Windows.Forms.MessageBox.Show(message);
+            MessageBox.Show(message);
 #endif
         }
     }

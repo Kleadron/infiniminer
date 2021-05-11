@@ -55,7 +55,8 @@ namespace StateMasher
             ScratchContent = new ContentManager(Services, "Content"); // for big things to be unloaded
             graphicsDeviceManager = new GraphicsDeviceManager(this);
 #if SDL2
-
+            TextInputEXT.TextInput += TextInputEXT_TextInput;
+            TextInputEXT.StartTextInput();
 #else
             EventInput.EventInput.Initialize(this.Window);
             EventInput.EventInput.CharEntered += new EventInput.CharEnteredHandler(EventInput_CharEntered);
@@ -104,6 +105,12 @@ namespace StateMasher
                 currentState.OnCharEntered(e);
         }
 
+        public void TextInputEXT_TextInput(char c)
+        {
+            if (currentState != null)
+                currentState.OnCharEntered(new EventInput.CharacterEventArgs(c, 0));
+        }
+
         public void EventInput_KeyDown(object sender, EventInput.KeyEventArgs e)
         {
             if (currentState != null)
@@ -140,7 +147,8 @@ namespace StateMasher
                     EventInput_KeyDown(null, new EventInput.KeyEventArgs(key));
                     
                     // this is not how it should be done but I don't care right now
-                    EventInput_CharEntered(null, new EventInput.CharacterEventArgs((char)i, 0));
+                    //EventInput_CharEntered(null, new EventInput.CharacterEventArgs((char)i, 0));
+                    // screw it, fixing it
                 }
                 else if (kbState.IsKeyUp(key) && kbStateOld.IsKeyDown(key))
                 {

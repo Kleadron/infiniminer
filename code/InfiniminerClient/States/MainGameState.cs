@@ -513,6 +513,23 @@ namespace Infiniminer.States
                         _P.chatEntryBuffer = "";
                         return;
                     }
+#else
+                    if (key == Keys.V)
+                    {
+                        _P.chatEntryBuffer += SDL2.SDL.SDL_GetClipboardText();
+                        return;
+                    }
+                    else if (key == Keys.C)
+                    {
+                        SDL2.SDL.SDL_SetClipboardText(_P.chatEntryBuffer);
+                        return;
+                    }
+                    else if (key == Keys.X)
+                    {
+                        SDL2.SDL.SDL_SetClipboardText(_P.chatEntryBuffer);
+                        _P.chatEntryBuffer = "";
+                        return;
+                    }
 #endif
                 }
                 // Put the characters in the chat buffer.

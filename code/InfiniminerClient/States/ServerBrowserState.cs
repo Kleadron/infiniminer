@@ -199,6 +199,8 @@ namespace Infiniminer.States
                     {
 #if !SDL2
                         directConnectIP += System.Windows.Forms.Clipboard.GetText();
+#else
+                        directConnectIP += SDL2.SDL.SDL_GetClipboardText();
 #endif
                     }
                     catch { }
