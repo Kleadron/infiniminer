@@ -1,20 +1,6 @@
 INFINIMINER FOR XNA 4.0
 =======================
 
-The plan is to eventually have a stable version of the game to put on
-FNA, as well as a generally more supported XNA version.
-
-Because I can, I am absolutely keeping the XNA version, but the FNA
-version will (if I don't forget about the project) be available for
-cross-platform play, as well as (sarcasm ahead) raytracing, super-
-duper-ultra graphics, megachrist ambient occlusion, and PBR shaders.
-
-This version is based off of the master branch of the craftworkgames 
-fork of Infiniminer.
-I have no idea what some of the stuff is, like why it has sprint.
-If anyone complains about it, I'll look into making options or 
-removing stuff.
-
 BUILDING
 ========
 
